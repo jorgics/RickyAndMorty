@@ -1,4 +1,4 @@
-package com.practice.challengebemobile.ui.theme
+package com.practice.rickyandmorty.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

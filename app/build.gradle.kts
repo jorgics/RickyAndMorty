@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.practice.challengebemobile"
+    namespace = "com.practice.rickyandmorty"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -15,7 +15,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.practice.challengebemobile"
+        applicationId = "com.practice.rickyandmorty"
         minSdk = 24
         //noinspection OldTargetApi
         targetSdk = 36
@@ -50,6 +50,7 @@ android {
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.compose.foundation.layout)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
@@ -85,6 +86,10 @@ dependencies {
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.kotlinx.serialization.core)
+
+    // Paging 3
+    implementation(libs.paging.runtime)
+    implementation(libs.paging.compose)
 
     // Room
     implementation(libs.room.runtime)

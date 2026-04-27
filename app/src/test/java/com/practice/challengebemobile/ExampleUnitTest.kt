@@ -1,4 +1,4 @@
-package com.practice.challengebemobile
+package com.practice.rickyandmorty
 
 import org.junit.Test
 

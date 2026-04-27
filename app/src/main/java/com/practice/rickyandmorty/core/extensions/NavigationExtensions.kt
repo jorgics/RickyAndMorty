@@ -3,12 +3,15 @@ package com.practice.rickyandmorty.core.extensions
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 
-fun NavBackStack<NavKey>.navigateTo(screen: NavKey) {
-    add(screen)
+fun NavBackStack<NavKey>.navigateTo(route: NavKey) {
+    if (lastOrNull() != route) {
+        add(route)
+    }
 }
 
-fun NavBackStack<NavKey>.navigateSingleTop(route: NavKey) {
+fun NavBackStack<NavKey>.navigateToSingleTop(route: NavKey) {
     if (lastOrNull() != route) {
+        if (isNotEmpty()) removeLastOrNull()
         add(route)
     }
 }

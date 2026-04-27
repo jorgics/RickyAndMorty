@@ -14,9 +14,8 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.practice.rickyandmorty.core.extensions.back
-import com.practice.rickyandmorty.core.extensions.backTo
-import com.practice.rickyandmorty.core.extensions.navigateSingleTop
 import com.practice.rickyandmorty.core.extensions.navigateTo
+import com.practice.rickyandmorty.core.extensions.navigateToSingleTop
 import com.practice.rickyandmorty.core.ui.MyBottomBar
 import com.practice.rickyandmorty.core.ui.MyScaffold
 import com.practice.rickyandmorty.ui.detail.CharacterDetailScreen
@@ -81,7 +80,7 @@ fun NavContent(
         },
         entryProvider = entryProvider {
             entry<Route.Splash> {
-                SplashScreen(onNavigate = { backStack.navigateSingleTop(Route.CharacterList) })
+                SplashScreen(onNavigate = { backStack.navigateToSingleTop(Route.CharacterList) })
             }
 
             entry<Route.CharacterList> {

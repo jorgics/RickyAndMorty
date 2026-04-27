@@ -1,11 +1,29 @@
 package com.practice.rickyandmorty.core.ui
 
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.practice.rickyandmorty.R
 import com.practice.rickyandmorty.ui.navigation.BottomItem
 
@@ -18,30 +36,78 @@ fun MyBottomBar(
     onProfileClick: () -> Unit = {}
 ) {
     NavigationBar(
-        containerColor = Color.Black
+        containerColor = Color.Transparent,
+        contentColor = Color.White
     ) {
-        NavigationBarItem(
+        MyBottomItem(
+            modifier = Modifier.weight(1f),
             selected = selectedItem == BottomItem.EXPLORE,
-            onClick = onHomeClick,
-            icon = { Icon(painter = painterResource(R.drawable.home_24px), null) }
+            icon = R.drawable.home_24px,
+            label = BottomItem.EXPLORE.name,
+            onClick = onHomeClick
         )
 
-        NavigationBarItem(
+        MyBottomItem(
+            modifier = Modifier.weight(1f),
             selected = selectedItem == BottomItem.FAVORITES,
-            onClick = onFavoritesClick,
-            icon = { Icon(painter = painterResource(R.drawable.favorite_24px), null) }
+            icon = R.drawable.favorite_24px,
+            label = BottomItem.FAVORITES.name,
+            onClick = onFavoritesClick
         )
 
-        NavigationBarItem(
+        MyBottomItem(
+            modifier = Modifier.weight(1f),
             selected = selectedItem == BottomItem.SEARCH,
-            onClick = onSearchClick,
-            icon = { Icon(painter = painterResource(R.drawable.search_24px), null) }
+            icon = R.drawable.search_24px,
+            label = BottomItem.SEARCH.name,
+            onClick = onSearchClick
         )
 
-        NavigationBarItem(
+        MyBottomItem(
+            modifier = Modifier.weight(1f),
             selected = selectedItem == BottomItem.PROFILE,
-            onClick = onProfileClick,
-            icon = { Icon(painter = painterResource(R.drawable.person_24px), null) }
+            icon = R.drawable.person_24px,
+            label = BottomItem.PROFILE.name,
+            onClick = onProfileClick
+        )
+    }
+}
+
+@Composable
+fun MyBottomItem(
+    modifier: Modifier = Modifier,
+    selected: Boolean,
+    icon: Int,
+    label: String,
+    onClick: () -> Unit
+) {
+    val scale by animateFloatAsState(
+        targetValue = if (selected) 1.2f else 1f,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy
+        ),
+        label = ""
+    )
+
+    Column(
+        modifier = modifier
+            .clickable { onClick() }
+
+            .padding(vertical = 8.dp)
+            .scale(scale),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Icon(
+            painter = painterResource(icon),
+            contentDescription = null,
+            tint = if (selected) Color.White else Color.White.copy(alpha = 0.6f)
+        )
+
+        Text(
+            text = label,
+            color = if (selected) Color.White else Color.White.copy(alpha = 0.6f),
+            fontSize = 10.sp,
+            fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal
         )
     }
 }

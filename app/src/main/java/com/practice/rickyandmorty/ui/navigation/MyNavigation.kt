@@ -45,9 +45,6 @@ fun MyNavigation() {
             title = getTitle(currentRoute as Route?),
             showBackButton = currentRoute !is Route.CharacterList,
             onBackPressed = { backStack.back() },
-            actions = {
-                getActions(currentRoute, backStack)
-            },
             bottomBar = {
                 MyBottomBar(
                     selectedItem = selectedItem,

@@ -22,5 +22,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ChallengeBemobile"
+rootProject.name = "RickyAndMorty"
 include(":app")

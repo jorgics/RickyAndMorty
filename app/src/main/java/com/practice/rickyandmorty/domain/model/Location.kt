@@ -1,0 +1,6 @@
+package com.practice.rickyandmorty.domain.model
+
+data class Location(
+    val name: String?,
+    val url: String?
+)

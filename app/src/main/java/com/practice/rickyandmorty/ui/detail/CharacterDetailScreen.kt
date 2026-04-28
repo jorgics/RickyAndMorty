@@ -105,7 +105,8 @@ fun CharacterInfoGrid(character: Character) {
                     bottomEnd = 0.dp,
                     bottomStart = 0.dp
                 )
-            ).padding(16.dp)
+            )
+            .padding(16.dp)
     ) {
 
         Row(
@@ -123,7 +124,11 @@ fun CharacterInfoGrid(character: Character) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             InfoItem(modifier = Modifier.weight(1f), title = "GENDER", value = character.gender)
-            InfoItem(modifier = Modifier.weight(1f), title = "ORIGEN", value = character.origin?.name)
+            InfoItem(
+                modifier = Modifier.weight(1f),
+                title = "ORIGEN",
+                value = character.origin?.name
+            )
         }
 
         MyHorizontalSpacer(Modifier.padding(vertical = 8.dp))
@@ -131,7 +136,8 @@ fun CharacterInfoGrid(character: Character) {
         Text(
             modifier = Modifier.fillMaxWidth(),
             text = "ABOUT ${character.name}",
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = Color.White
         )
 
         Text(

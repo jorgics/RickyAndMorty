@@ -10,13 +10,11 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Preview
 @Composable
-fun MyLoadingProgress(isLoading: Boolean = true) {
-    if (isLoading) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            CircularProgressIndicator()
-        }
+fun MyLoadingProgress(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator()
     }
 }

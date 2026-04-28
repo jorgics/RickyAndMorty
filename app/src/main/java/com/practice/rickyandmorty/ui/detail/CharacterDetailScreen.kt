@@ -50,7 +50,7 @@ fun CharacterDetailScreenContent(uiState: CharacterDetailState) {
     when (uiState) {
         is CharacterDetailState.Loading -> {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                MyLoadingProgress(isLoading = true)
+                MyLoadingProgress()
             }
         }
 

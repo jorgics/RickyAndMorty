@@ -7,7 +7,6 @@ import com.practice.rickyandmorty.core.ui.viewmodel.BaseViewModel
 import com.practice.rickyandmorty.domain.model.Character
 import com.practice.rickyandmorty.domain.usecase.GetCharacterByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,23 +22,21 @@ class CharacterDetailViewModel @Inject constructor(
                 return@launch
             }
             setState { copy(isLoading = true) }
-            async {
-                when (val response = getCharacterByIdUseCase(id)) {
-                    is BaseResponse.Success -> {
-                        response.data.let { character ->
-                            if (character != null) {
-                                setState { copy(isLoading = false, character = character) }
-                            } else {
-                                setState { copy(isLoading = false, error = BaseException.NoContent()) }
-                            }
+            when (val response = getCharacterByIdUseCase(id)) {
+                is BaseResponse.Success -> {
+                    response.data.let { character ->
+                        if (character != null) {
+                            setState { copy(isLoading = false, character = character) }
+                        } else {
+                            setState { copy(isLoading = false, error = BaseException.NoContent()) }
                         }
                     }
-
-                    is BaseResponse.Error -> {
-                        setState { copy(error = response.exception) }
-                    }
                 }
-            }.await()
+
+                is BaseResponse.Error -> {
+                    setState { copy(error = response.exception) }
+                }
+            }
         }
     }
 
@@ -60,7 +57,7 @@ class CharacterDetailViewModel @Inject constructor(
     }
 }
 
-data class CharacterDetailState (
+data class CharacterDetailState(
     val isLoading: Boolean = true,
     val error: BaseException? = null,
     val character: Character = Character()

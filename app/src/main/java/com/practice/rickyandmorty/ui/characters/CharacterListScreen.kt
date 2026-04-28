@@ -94,12 +94,6 @@ fun CharacterListScreenContent(
                     is LoadState.Error -> item { ErrorEvent { onRefresh() } }
                     else -> Unit
                 }
-
-                when (characters.loadState.refresh) {
-                    is LoadState.Loading -> item { LoadingEvent() }
-                    is LoadState.Error -> item { ErrorEvent { onRefresh() } }
-                    else -> Unit
-                }
             }
         }
     }

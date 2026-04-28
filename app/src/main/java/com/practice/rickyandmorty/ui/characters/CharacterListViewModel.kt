@@ -45,10 +45,6 @@ class CharacterListViewModel @Inject constructor(
         viewModelScope.launch {
             intentChannel.consumeAsFlow().collect { intent ->
                 when (intent) {
-                    is CharacterListIntent.LoadCharacters -> {
-                        loadCharacters()
-                    }
-
                     is CharacterListIntent.ApplyFilter -> {
                         setState {
                             copy(
@@ -80,7 +76,6 @@ data class CharacterListState(
 )
 
 sealed class CharacterListIntent {
-    data object LoadCharacters : CharacterListIntent()
     data class ApplyFilter(val filter: CharacterFilter) : CharacterListIntent()
     data object Retry : CharacterListIntent()
 }

@@ -1,5 +1,6 @@
 package com.practice.rickyandmorty.ui.characters
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -19,10 +20,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.practice.rickyandmorty.R
@@ -36,6 +39,7 @@ import com.practice.rickyandmorty.domain.model.Character
 import com.practice.rickyandmorty.domain.model.CharacterFilter
 import com.practice.rickyandmorty.domain.model.Gender
 import com.practice.rickyandmorty.ui.theme.BackgroundBrush
+import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun CharacterListScreen(
@@ -45,10 +49,6 @@ fun CharacterListScreen(
     val uiState by viewModel.state.collectAsState()
     val pagingItems = viewModel.pagingDataFlow.collectAsLazyPagingItems()
     val loadState = pagingItems.loadState.refresh
-
-    LaunchedEffect(uiState.retry) {
-        pagingItems.retry()
-    }
 
     CharacterListScreenContent(
         uiState = uiState,
@@ -67,6 +67,10 @@ fun CharacterListScreenContent(
     onIntent: (CharacterListIntent) -> Unit,
     onDetailClick: (Int?, String?) -> Unit
 ) {
+    LaunchedEffect(uiState.retry) {
+        pagingItems.retry()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -255,4 +259,36 @@ fun ErrorEvent(onRefresh: () -> Unit) {
     ) {
         MyErrorDialog(BaseException.Unknown()) { onRefresh() }
     }
+}
+
+
+@Preview(
+    name = "Dark Mode",
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
+@Composable
+fun CharacterListScreenPreview() {
+    val fakeCharacters = listOf(
+        Character(
+            id = 1,
+            name = "Rick Sanchez",
+            species = "Human"
+        ),
+        Character(id = 2, name = "Morty Smith", species = "Human")
+    )
+
+    val pagingItems = flowOf(
+        PagingData.from(fakeCharacters)
+    ).collectAsLazyPagingItems()
+
+    CharacterListScreenContent(
+        uiState = CharacterListState(
+            selectedFilter = null,
+            filter = CharacterFilter()
+        ),
+        pagingItems = pagingItems,
+        loadState = LoadState.NotLoading(false),
+        onIntent = {},
+        onDetailClick = { _, _ -> }
+    )
 }

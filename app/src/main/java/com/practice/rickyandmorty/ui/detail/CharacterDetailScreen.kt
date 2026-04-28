@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -166,3 +167,16 @@ fun InfoItem(
     }
 }
 
+@Preview
+@Composable
+fun CharacterDetailScreenPreview() {
+    val uiState = CharacterDetailState(
+        character = Character(
+            id = 1,
+            name = "Rick Sanchez",
+            species = "Human"
+        )
+    )
+
+    CharacterDetailScreenContent(uiState = uiState)
+}

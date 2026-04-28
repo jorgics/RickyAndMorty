@@ -75,7 +75,7 @@ fun CharacterDetailItem(character: Character) {
         contentAlignment = Alignment.BottomCenter
     ) {
         MyImage(
-            source = MyImageSource.Url(character.image),
+            source = MyImageSource.Url(url = character.image, resolution = 512),
             contentDescription = character.name,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
@@ -154,7 +154,7 @@ fun InfoItem(
         verticalArrangement = Arrangement.Center
     ) {
         Text(title, color = GrayMedium, fontSize = 12.sp)
-        Text(value ?: "-", color = Color.White, fontWeight = FontWeight.Bold)
+        Text(value ?: "Unknown", color = Color.White, fontWeight = FontWeight.Bold)
     }
 }
 

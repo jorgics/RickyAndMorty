@@ -1,5 +1,6 @@
 package com.practice.rickyandmorty.ui.characters
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
@@ -7,7 +8,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,6 +33,7 @@ import com.practice.rickyandmorty.core.ui.MyLoadingProgress
 import com.practice.rickyandmorty.domain.model.Character
 import com.practice.rickyandmorty.domain.model.CharacterFilter
 import com.practice.rickyandmorty.domain.model.Gender
+import com.practice.rickyandmorty.ui.theme.BackgroundBrush
 
 @Composable
 fun CharacterListScreen(
@@ -79,7 +80,7 @@ fun CharacterListScreenContent(
         ) {
             FilterLayout(selected = uiState.selectedFilter, onClick = { onFilterClick(it) })
 
-            LazyColumn(modifier = Modifier.fillMaxSize()) {
+            LazyColumn(modifier = Modifier.fillMaxSize().background(BackgroundBrush)) {
                 items(
                     count = characters.itemCount,
                     key = { index -> characters[index]?.id ?: index }
@@ -106,9 +107,7 @@ fun CharacterItem(character: Character, onClick: (Int?, String?) -> Unit) {
             .fillMaxWidth()
             .padding(4.dp)
             .clickable { onClick(character.id, character.name) },
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults
-            .cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -165,7 +164,8 @@ fun FilterLayout(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp)
+            .background(BackgroundBrush),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

@@ -38,6 +38,7 @@ class CharacterRepositoryImpl @Inject constructor(
             config = PagingConfig(
                 pageSize = 20,
                 prefetchDistance = 5,
+                initialLoadSize = 20,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = {

@@ -14,8 +14,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -27,9 +29,20 @@ object RickyAndMortyModule {
 
     @Provides
     @Singleton
-    fun provideRickAndMortyApi(moshi: Moshi): RickAndMortyService =
+    fun provideOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder()
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .readTimeout(15, TimeUnit.SECONDS)
+            .writeTimeout(15, TimeUnit.SECONDS)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRickAndMortyApi(moshi: Moshi, okHttpClient: OkHttpClient): RickAndMortyService =
         Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
+            .client(okHttpClient)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
             .create(RickAndMortyService::class.java)

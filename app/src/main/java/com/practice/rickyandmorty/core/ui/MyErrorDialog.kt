@@ -10,10 +10,12 @@ fun MyErrorDialog(
 ) {
 
     val message = when (error) {
-        is BaseException.Network -> "Error de conexión"
+        is BaseException.Network -> "Error network"
         is BaseException.Timeout -> "Timeout de red"
-        is BaseException.HttpError -> "Error servidor (${error.code})"
-        is BaseException.Unknown -> "Error desconocido"
+        is BaseException.HttpError -> "Error server (${error.code})"
+        is BaseException.Unknown -> "Error unknown"
+        is BaseException.NoContent -> "No content"
+        is BaseException.NoData -> "No data for request"
     }
 
     MyDialog(

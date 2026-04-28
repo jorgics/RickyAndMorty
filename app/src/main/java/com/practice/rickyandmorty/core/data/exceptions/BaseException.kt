@@ -11,4 +11,6 @@ sealed class BaseException : Throwable() {
 
     class Unknown : BaseException()
     class Timeout : BaseException()
+    class NoContent : BaseException()
+    class NoData : BaseException()
 }

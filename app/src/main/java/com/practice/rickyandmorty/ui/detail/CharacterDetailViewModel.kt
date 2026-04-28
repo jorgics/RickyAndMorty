@@ -1,6 +1,7 @@
 package com.practice.rickyandmorty.ui.detail
 
 import androidx.lifecycle.viewModelScope
+import com.practice.rickyandmorty.core.data.exceptions.BaseException
 import com.practice.rickyandmorty.core.data.responses.BaseResponse
 import com.practice.rickyandmorty.core.ui.viewmodel.BaseViewModel
 import com.practice.rickyandmorty.domain.model.Character
@@ -13,40 +14,42 @@ import javax.inject.Inject
 @HiltViewModel
 class CharacterDetailViewModel @Inject constructor(
     private val getCharacterByIdUseCase: GetCharacterByIdUseCase
-) : BaseViewModel<CharacterDetailIntent, CharacterDetailState>(CharacterDetailState.Loading) {
+) : BaseViewModel<CharacterDetailIntent, CharacterDetailState>(CharacterDetailState()) {
 
     private fun getCharacterById(id: Int?) {
         viewModelScope.launch {
             if (id == null) {
-                setState { CharacterDetailState.Error("Invalid character ID") }
+                setState { copy(isLoading = false, error = BaseException.NoData()) }
                 return@launch
             }
-            setState { CharacterDetailState.Loading }
+            setState { copy(isLoading = true) }
             async {
                 when (val response = getCharacterByIdUseCase(id)) {
                     is BaseResponse.Success -> {
                         response.data.let { character ->
                             if (character != null) {
-                                CharacterDetailState.Success(character)
+                                setState { copy(isLoading = false, character = character) }
                             } else {
-                                CharacterDetailState.Error("Character not found")
+                                setState { copy(isLoading = false, error = BaseException.NoContent()) }
                             }
                         }
                     }
 
                     is BaseResponse.Error -> {
-                        CharacterDetailState.Error(
-                            response.exception.message ?: "An error occurred"
-                        )
+                        setState { copy(error = response.exception) }
                     }
                 }
-            }.await().let { state ->
-                setState { state }
-            }
+            }.await()
         }
     }
 
     override fun sendIntent(intent: CharacterDetailIntent) {
+        viewModelScope.launch {
+            handleIntents(intent)
+        }
+    }
+
+    override fun handleIntents(intent: CharacterDetailIntent) {
         viewModelScope.launch {
             when (intent) {
                 is CharacterDetailIntent.LoadCharacter -> {
@@ -57,11 +60,11 @@ class CharacterDetailViewModel @Inject constructor(
     }
 }
 
-sealed class CharacterDetailState {
-    data class Success(val character: Character) : CharacterDetailState()
-    data class Error(val message: String) : CharacterDetailState()
-    object Loading : CharacterDetailState()
-}
+data class CharacterDetailState (
+    val isLoading: Boolean = true,
+    val error: BaseException? = null,
+    val character: Character = Character()
+)
 
 sealed class CharacterDetailIntent {
     data class LoadCharacter(val id: Int?) : CharacterDetailIntent()

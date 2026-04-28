@@ -26,10 +26,13 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.practice.rickyandmorty.R
+import com.practice.rickyandmorty.core.ui.MyFilterItem
 import com.practice.rickyandmorty.core.ui.MyImage
 import com.practice.rickyandmorty.core.ui.MyImageSource
 import com.practice.rickyandmorty.core.ui.MyLoadingProgress
 import com.practice.rickyandmorty.domain.model.Character
+import com.practice.rickyandmorty.domain.model.CharacterFilter
+import com.practice.rickyandmorty.domain.model.Gender
 
 @Composable
 fun CharacterListScreen(
@@ -43,7 +46,10 @@ fun CharacterListScreen(
         uiState = uiState,
         characters = characters,
         onRefresh = { viewModel.sendIntent(CharacterListIntent.Retry) },
-        onDetailClick = onDetailClick
+        onDetailClick = onDetailClick,
+        onFilterClick = {
+            viewModel.sendIntent(CharacterListIntent.ApplyFilter(filter = CharacterFilter(gender = it)))
+        }
     )
 }
 
@@ -52,10 +58,11 @@ fun CharacterListScreenContent(
     uiState: CharacterListState,
     characters: LazyPagingItems<Character>,
     onDetailClick: (Int?, String?) -> Unit,
-    onRefresh: () -> Unit
+    onRefresh: () -> Unit,
+    onFilterClick: (Gender?) -> Unit
 ) {
     if (uiState.isLoading && characters.loadState.refresh is LoadState.Loading) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
             MyLoadingProgress()
         }
     } else if (uiState.error != null && characters.loadState.refresh is LoadState.Error) {
@@ -63,26 +70,36 @@ fun CharacterListScreenContent(
             Text(text = "Error loading characters")
         }
     } else {
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(
-                count = characters.itemCount,
-                key = { index -> characters[index]?.id ?: index }
-            ) { index ->
-                characters[index]?.let {
-                    CharacterItem(character = it, onClick = onDetailClick)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            FilterLayout(selected = uiState.selectedFilter, onClick = { onFilterClick(it) })
+
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                items(
+                    count = characters.itemCount,
+                    key = { index -> characters[index]?.id ?: index }
+                ) { index ->
+                    characters[index]?.let {
+                        CharacterItem(character = it, onClick = onDetailClick)
+                    }
                 }
-            }
 
-            when (characters.loadState.append) {
-                is LoadState.Loading -> item { LoadingEvent() }
-                is LoadState.Error -> item { ErrorEvent { onRefresh() } }
-                else -> Unit
-            }
+                when (characters.loadState.append) {
+                    is LoadState.Loading -> item { LoadingEvent() }
+                    is LoadState.Error -> item { ErrorEvent { onRefresh() } }
+                    else -> Unit
+                }
 
-            when (characters.loadState.refresh) {
-                is LoadState.Loading -> item { LoadingEvent() }
-                is LoadState.Error -> item { ErrorEvent { onRefresh() } }
-                else -> Unit
+                when (characters.loadState.refresh) {
+                    is LoadState.Loading -> item { LoadingEvent() }
+                    is LoadState.Error -> item { ErrorEvent { onRefresh() } }
+                    else -> Unit
+                }
             }
         }
     }
@@ -143,6 +160,48 @@ fun CharacterItem(character: Character, onClick: (Int?, String?) -> Unit) {
                 )
             }
         }
+    }
+}
+
+@Composable
+fun FilterLayout(
+    selected: Gender?,
+    onClick: (Gender?) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        MyFilterItem(
+            modifier = Modifier.weight(1f),
+            selected = selected == null,
+            label = "ALL",
+            onClick = { onClick(null) }
+        )
+
+        MyFilterItem(
+            modifier = Modifier.weight(1f),
+            selected = selected == Gender.Male,
+            label = Gender.Male.value.uppercase(),
+            onClick = { onClick(Gender.Male) }
+        )
+
+        MyFilterItem(
+            modifier = Modifier.weight(1f),
+            selected = selected == Gender.Female,
+            label = Gender.Female.value.uppercase(),
+            onClick = { onClick(Gender.Female) }
+        )
+
+        MyFilterItem(
+            modifier = Modifier.weight(1f),
+            selected = selected == Gender.Genderless,
+            label = Gender.Genderless.value.uppercase(),
+            onClick = { onClick(Gender.Genderless) }
+        )
     }
 }
 

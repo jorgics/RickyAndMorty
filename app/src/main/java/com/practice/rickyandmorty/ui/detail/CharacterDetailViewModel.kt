@@ -34,7 +34,7 @@ class CharacterDetailViewModel @Inject constructor(
                 }
 
                 is BaseResponse.Error -> {
-                    setState { copy(error = response.exception) }
+                    setState { copy(isLoading = false, error = response.exception) }
                 }
             }
         }

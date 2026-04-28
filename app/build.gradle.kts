@@ -33,6 +33,15 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+
+        debug {
+            buildConfigField("String", "BASE_URL", "\"https://rickandmortyapi.com/api/\"")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            isMinifyEnabled = false
             signingConfig = signingConfigs.getByName("debug")
             isDebuggable = true
         }
@@ -95,4 +104,11 @@ dependencies {
     implementation(libs.room.runtime)
     annotationProcessor(libs.room.compiler)
     ksp(libs.room.compiler)
+
+    // Mockk
+    testImplementation(libs.io.mockk)
+    // Turbine
+    testImplementation(libs.app.cash.turbine)
+    // Coroutines Test
+    testImplementation(libs.coroutines.test)
 }

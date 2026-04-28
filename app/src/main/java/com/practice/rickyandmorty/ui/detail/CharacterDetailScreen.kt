@@ -22,6 +22,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.practice.rickyandmorty.core.data.exceptions.BaseException
+import com.practice.rickyandmorty.core.ui.MyErrorDialog
 import com.practice.rickyandmorty.core.ui.MyHorizontalSpacer
 import com.practice.rickyandmorty.core.ui.MyImage
 import com.practice.rickyandmorty.core.ui.MyImageSource
@@ -47,20 +49,20 @@ fun CharacterDetailScreen(
 
 @Composable
 fun CharacterDetailScreenContent(uiState: CharacterDetailState) {
-    when (uiState) {
-        is CharacterDetailState.Loading -> {
+    when {
+        uiState.isLoading -> {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 MyLoadingProgress()
             }
         }
 
-        is CharacterDetailState.Error -> {
+        uiState.error is BaseException -> {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(text = "Error loading character")
+                MyErrorDialog(uiState.error) { }
             }
         }
 
-        is CharacterDetailState.Success -> {
+        else -> {
             CharacterDetailItem(character = uiState.character)
         }
     }

@@ -8,7 +8,6 @@ import com.practice.rickyandmorty.core.data.network.safeApiCall
 import com.practice.rickyandmorty.core.data.responses.BaseResponse
 import com.practice.rickyandmorty.data.mapper.toDomain
 import com.practice.rickyandmorty.data.remote.RickAndMortyService
-import com.practice.rickyandmorty.data.remote.response.CharacterPagingSource
 import com.practice.rickyandmorty.domain.model.Character
 import com.practice.rickyandmorty.domain.model.CharacterFilter
 import com.practice.rickyandmorty.domain.model.RickyAndMorty
@@ -37,7 +36,7 @@ class CharacterRepositoryImpl @Inject constructor(
         return Pager(
             config = PagingConfig(
                 pageSize = 20,
-                prefetchDistance = 5,
+                prefetchDistance = 3,
                 initialLoadSize = 20,
                 enablePlaceholders = false
             ),

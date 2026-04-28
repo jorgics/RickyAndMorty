@@ -8,69 +8,59 @@ import com.practice.rickyandmorty.domain.model.Gender
 import com.practice.rickyandmorty.domain.usecase.GetAllCharactersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CharacterListViewModel @Inject constructor(
     private val getAllCharactersUseCase: GetAllCharactersUseCase
 ) : BaseViewModel<CharacterListIntent, CharacterListState>(CharacterListState()) {
-    val intentChannel = Channel<CharacterListIntent>(Channel.UNLIMITED)
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val pagingDataFlow = state
+    @OptIn(FlowPreview::class)
+    private val filterFlow = state
         .map { it.filter }
         .distinctUntilChanged()
+        .debounce(300)
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val pagingDataFlow = filterFlow
         .flatMapLatest { filter ->
             getAllCharactersUseCase(filter)
         }
         .cachedIn(viewModelScope)
 
-    init {
-        handleIntents()
-    }
-
     override fun sendIntent(intent: CharacterListIntent) {
-        viewModelScope.launch {
-            intentChannel.send(intent)
-        }
+        handleIntents(intent)
     }
 
-    fun handleIntents() {
-        viewModelScope.launch {
-            intentChannel.consumeAsFlow().collect { intent ->
-                when (intent) {
-                    is CharacterListIntent.ApplyFilter -> {
-                        setState {
-                            copy(
-                                isLoading = false,
-                                selectedFilter = intent.filter.gender,
-                                filter = intent.filter
-                            )
-                        }
-                    }
-
-                    is CharacterListIntent.Retry -> {
-                        loadCharacters()
-                    }
+    override fun handleIntents(intent: CharacterListIntent) {
+        when (intent) {
+            is CharacterListIntent.ApplyFilter -> {
+                setState {
+                    copy(
+                        selectedFilter = intent.filter.gender,
+                        filter = intent.filter
+                    )
                 }
+            }
+
+            is CharacterListIntent.Retry -> {
+                retry()
             }
         }
     }
 
-    private fun loadCharacters() {
-        setState { copy(isLoading = true, error = null) }
+    private fun retry() {
+        setState { copy(retry = !this.retry) }
     }
 }
 
 data class CharacterListState(
-    val isLoading: Boolean = true,
-    val error: String? = null,
+    val retry: Boolean = false,
     val selectedFilter: Gender? = null,
     val filter: CharacterFilter = CharacterFilter()
 )

@@ -5,12 +5,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -26,6 +26,8 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.practice.rickyandmorty.R
+import com.practice.rickyandmorty.core.data.exceptions.BaseException
+import com.practice.rickyandmorty.core.ui.MyErrorDialog
 import com.practice.rickyandmorty.core.ui.MyFilterItem
 import com.practice.rickyandmorty.core.ui.MyImage
 import com.practice.rickyandmorty.core.ui.MyImageSource
@@ -41,61 +43,92 @@ fun CharacterListScreen(
     viewModel: CharacterListViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.state.collectAsState()
-    val characters = viewModel.pagingDataFlow.collectAsLazyPagingItems()
+    val pagingItems = viewModel.pagingDataFlow.collectAsLazyPagingItems()
+    val loadState = pagingItems.loadState.refresh
+
+    LaunchedEffect(uiState.retry) {
+        pagingItems.retry()
+    }
 
     CharacterListScreenContent(
         uiState = uiState,
-        characters = characters,
-        onRefresh = { viewModel.sendIntent(CharacterListIntent.Retry) },
-        onDetailClick = onDetailClick,
-        onFilterClick = {
-            viewModel.sendIntent(CharacterListIntent.ApplyFilter(filter = CharacterFilter(gender = it)))
-        }
+        pagingItems = pagingItems,
+        loadState = loadState,
+        onIntent = { viewModel.sendIntent(it) },
+        onDetailClick = onDetailClick
     )
 }
 
 @Composable
 fun CharacterListScreenContent(
     uiState: CharacterListState,
-    characters: LazyPagingItems<Character>,
-    onDetailClick: (Int?, String?) -> Unit,
-    onRefresh: () -> Unit,
-    onFilterClick: (Gender?) -> Unit
+    pagingItems: LazyPagingItems<Character>,
+    loadState: LoadState,
+    onIntent: (CharacterListIntent) -> Unit,
+    onDetailClick: (Int?, String?) -> Unit
 ) {
-    if (uiState.isLoading && characters.loadState.refresh is LoadState.Loading) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
-            MyLoadingProgress()
-        }
-    } else if (uiState.error != null && characters.loadState.refresh is LoadState.Error) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text(text = "Error loading characters")
-        }
-    } else {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            FilterLayout(selected = uiState.selectedFilter, onClick = { onFilterClick(it) })
-
-            LazyColumn(modifier = Modifier.fillMaxSize().background(BackgroundBrush)) {
-                items(
-                    count = characters.itemCount,
-                    key = { index -> characters[index]?.id ?: index }
-                ) { index ->
-                    characters[index]?.let {
-                        CharacterItem(character = it, onClick = onDetailClick)
-                    }
-                }
-
-                when (characters.loadState.append) {
-                    is LoadState.Loading -> item { LoadingEvent() }
-                    is LoadState.Error -> item { ErrorEvent { onRefresh() } }
-                    else -> Unit
-                }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(8.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        FilterLayout(
+            selected = uiState.selectedFilter,
+            onClick = {
+                onIntent(
+                    CharacterListIntent.ApplyFilter(
+                        filter = CharacterFilter(
+                            gender = it
+                        )
+                    )
+                )
             }
+        )
+
+        when {
+            loadState is LoadState.Loading && pagingItems.itemCount == 0 -> LoadingEvent()
+            loadState is LoadState.NotLoading && pagingItems.itemCount == 0 -> {
+                EmptyListEvent()
+            }
+
+            pagingItems.loadState.hasError -> {
+                ErrorEvent { onIntent(CharacterListIntent.Retry) }
+            }
+
+            else -> {
+                CharacterListEvent(
+                    pagingItems = pagingItems,
+                    onDetailClick = onDetailClick
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun CharacterListEvent(
+    pagingItems: LazyPagingItems<Character>,
+    onDetailClick: (Int?, String?) -> Unit
+) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(BackgroundBrush)
+    ) {
+        items(
+            count = pagingItems.itemCount,
+            key = { index -> pagingItems[index]?.id ?: index }
+        ) { index ->
+            pagingItems[index]?.let {
+                CharacterItem(character = it, onClick = onDetailClick)
+            }
+        }
+
+        when (pagingItems.loadState.append) {
+            is LoadState.Loading -> item { LoadingEvent() }
+            else -> Unit
         }
     }
 }
@@ -121,7 +154,7 @@ fun CharacterItem(character: Character, onClick: (Int?, String?) -> Unit) {
                 MyImage(
                     source = MyImageSource.Url(character.image),
                     contentDescription = character.name,
-                    modifier = Modifier.size(128.dp),
+                    modifier = Modifier.size(150.dp),
                     contentScale = ContentScale.Crop
                 )
 
@@ -207,8 +240,19 @@ fun LoadingEvent() {
 }
 
 @Composable
-fun ErrorEvent(onRefresh: () -> Unit) {
+fun EmptyListEvent() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Button(onClick = { onRefresh() }) { Text(text = "Retry") }
+        Text(text = "Empty characters")
+    }
+}
+
+@Composable
+fun ErrorEvent(onRefresh: () -> Unit) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        MyErrorDialog(BaseException.Unknown()) { onRefresh() }
     }
 }

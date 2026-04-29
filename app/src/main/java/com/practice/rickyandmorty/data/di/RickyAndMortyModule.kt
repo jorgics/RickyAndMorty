@@ -6,7 +6,6 @@ import com.practice.rickyandmorty.data.repository.CharacterRepositoryImpl
 import com.practice.rickyandmorty.domain.repository.CharacterRepository
 import com.practice.rickyandmorty.domain.usecase.GetCharactersByFilterUseCase
 import com.practice.rickyandmorty.domain.usecase.GetCharacterByIdUseCase
-import com.practice.rickyandmorty.domain.usecase.GetMultipleCharactersUseCase
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -52,16 +51,8 @@ object RickyAndMortyModule {
         CharacterRepositoryImpl(api)
 
     @Provides
-    fun provideGetAllCharactersUseCase(repository: CharacterRepository) =
-        GetCharactersByFilterUseCase(repository)
-
-    @Provides
     fun provideGetCharacterByIdUseCase(repository: CharacterRepository) =
         GetCharacterByIdUseCase(repository)
-
-    @Provides
-    fun provideGetMultipleCharactersUseCase(repository: CharacterRepository) =
-        GetMultipleCharactersUseCase(repository)
 
     @Provides
     fun provideGetCharactersByFilterUseCase(repository: CharacterRepository) =

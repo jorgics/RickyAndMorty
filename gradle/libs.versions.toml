@@ -17,7 +17,6 @@ coil = "3.4.0"
 nav3Core = "1.1.1"
 kotlinxSerializationCore = "1.11.0"
 kotlinSerialization = "2.3.21"
-room = "2.8.4"
 paging = "3.4.2"
 foundationLayout = "1.11.0"
 mockk = "1.14.9"
@@ -67,10 +66,6 @@ kotlinx-serialization-core = {module = "org.jetbrains.kotlinx:kotlinx-serializat
 # Paging dependencies
 paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "paging" }
 paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
-
-# Room
-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
 # Mockk
 io-mockk = { module = "io.mockk:mockk-android", version.ref = "mockk" }

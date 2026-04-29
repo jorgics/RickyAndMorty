@@ -100,11 +100,6 @@ dependencies {
     implementation(libs.paging.runtime)
     implementation(libs.paging.compose)
 
-    // Room
-    implementation(libs.room.runtime)
-    annotationProcessor(libs.room.compiler)
-    ksp(libs.room.compiler)
-
     // Mockk
     testImplementation(libs.io.mockk)
     // Turbine

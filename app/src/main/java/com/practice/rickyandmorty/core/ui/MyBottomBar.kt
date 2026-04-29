@@ -91,8 +91,7 @@ fun MyBottomItem(
 
     Column(
         modifier = modifier
-            .clickable { onClick() }
-
+            .clickable(!selected) { onClick() }
             .padding(vertical = 8.dp)
             .scale(scale),
         horizontalAlignment = Alignment.CenterHorizontally

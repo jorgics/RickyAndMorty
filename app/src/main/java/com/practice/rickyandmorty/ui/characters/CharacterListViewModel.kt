@@ -4,7 +4,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.practice.rickyandmorty.core.ui.viewmodel.BaseViewModel
 import com.practice.rickyandmorty.domain.model.CharacterFilter
-import com.practice.rickyandmorty.domain.model.Gender
 import com.practice.rickyandmorty.domain.usecase.GetAllCharactersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -41,10 +40,7 @@ class CharacterListViewModel @Inject constructor(
         when (intent) {
             is CharacterListIntent.ApplyFilter -> {
                 setState {
-                    copy(
-                        selectedFilter = intent.filter.gender,
-                        filter = intent.filter
-                    )
+                    copy(filter = intent.filter)
                 }
             }
 
@@ -61,7 +57,6 @@ class CharacterListViewModel @Inject constructor(
 
 data class CharacterListState(
     val retry: Boolean = false,
-    val selectedFilter: Gender? = null,
     val filter: CharacterFilter = CharacterFilter()
 )
 

@@ -31,24 +31,29 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.practice.rickyandmorty.R
 import com.practice.rickyandmorty.core.data.exceptions.BaseException
 import com.practice.rickyandmorty.core.ui.MyErrorDialog
-import com.practice.rickyandmorty.core.ui.MyFilterItem
 import com.practice.rickyandmorty.core.ui.MyImage
 import com.practice.rickyandmorty.core.ui.MyImageSource
 import com.practice.rickyandmorty.core.ui.MyLoadingProgress
 import com.practice.rickyandmorty.domain.model.Character
 import com.practice.rickyandmorty.domain.model.CharacterFilter
-import com.practice.rickyandmorty.domain.model.Gender
 import com.practice.rickyandmorty.ui.theme.BackgroundBrush
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun CharacterListScreen(
+    viewModel: CharacterListViewModel = hiltViewModel(),
     onDetailClick: (Int?, String?) -> Unit = { _, _ -> },
-    viewModel: CharacterListViewModel = hiltViewModel()
+    filter: CharacterFilter? = null
 ) {
     val uiState by viewModel.state.collectAsState()
     val pagingItems = viewModel.pagingDataFlow.collectAsLazyPagingItems()
     val loadState = pagingItems.loadState.refresh
+
+    LaunchedEffect(true) {
+        filter?.let {
+            viewModel.sendIntent(CharacterListIntent.ApplyFilter(filter))
+        }
+    }
 
     CharacterListScreenContent(
         uiState = uiState,
@@ -71,42 +76,21 @@ fun CharacterListScreenContent(
         pagingItems.retry()
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(8.dp),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        FilterLayout(
-            selected = uiState.selectedFilter,
-            onClick = {
-                onIntent(
-                    CharacterListIntent.ApplyFilter(
-                        filter = CharacterFilter(
-                            gender = it
-                        )
-                    )
-                )
-            }
-        )
+    when {
+        loadState is LoadState.Loading && pagingItems.itemCount == 0 -> LoadingEvent()
+        loadState is LoadState.NotLoading && pagingItems.itemCount == 0 -> {
+            EmptyListEvent()
+        }
 
-        when {
-            loadState is LoadState.Loading && pagingItems.itemCount == 0 -> LoadingEvent()
-            loadState is LoadState.NotLoading && pagingItems.itemCount == 0 -> {
-                EmptyListEvent()
-            }
+        pagingItems.loadState.hasError -> {
+            ErrorEvent { onIntent(CharacterListIntent.Retry) }
+        }
 
-            pagingItems.loadState.hasError -> {
-                ErrorEvent { onIntent(CharacterListIntent.Retry) }
-            }
-
-            else -> {
-                CharacterListEvent(
-                    pagingItems = pagingItems,
-                    onDetailClick = onDetailClick
-                )
-            }
+        else -> {
+            CharacterListEvent(
+                pagingItems = pagingItems,
+                onDetailClick = onDetailClick
+            )
         }
     }
 }
@@ -194,49 +178,6 @@ fun CharacterItem(character: Character, onClick: (Int?, String?) -> Unit) {
 }
 
 @Composable
-fun FilterLayout(
-    selected: Gender?,
-    onClick: (Gender?) -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-            .background(BackgroundBrush),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        MyFilterItem(
-            modifier = Modifier.weight(1f),
-            selected = selected == null,
-            label = "ALL",
-            onClick = { onClick(null) }
-        )
-
-        MyFilterItem(
-            modifier = Modifier.weight(1f),
-            selected = selected == Gender.Male,
-            label = Gender.Male.value.uppercase(),
-            onClick = { onClick(Gender.Male) }
-        )
-
-        MyFilterItem(
-            modifier = Modifier.weight(1f),
-            selected = selected == Gender.Female,
-            label = Gender.Female.value.uppercase(),
-            onClick = { onClick(Gender.Female) }
-        )
-
-        MyFilterItem(
-            modifier = Modifier.weight(1f),
-            selected = selected == Gender.Genderless,
-            label = Gender.Genderless.value.uppercase(),
-            onClick = { onClick(Gender.Genderless) }
-        )
-    }
-}
-
-@Composable
 fun LoadingEvent() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         MyLoadingProgress()
@@ -282,10 +223,7 @@ fun CharacterListScreenPreview() {
     ).collectAsLazyPagingItems()
 
     CharacterListScreenContent(
-        uiState = CharacterListState(
-            selectedFilter = null,
-            filter = CharacterFilter()
-        ),
+        uiState = CharacterListState(filter = CharacterFilter()),
         pagingItems = pagingItems,
         loadState = LoadState.NotLoading(false),
         onIntent = {},

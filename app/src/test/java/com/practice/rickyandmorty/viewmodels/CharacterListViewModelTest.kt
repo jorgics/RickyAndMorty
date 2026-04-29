@@ -5,7 +5,7 @@ import app.cash.turbine.test
 import com.practice.rickyandmorty.utils.MainDispatcherRule
 import com.practice.rickyandmorty.domain.model.CharacterFilter
 import com.practice.rickyandmorty.domain.model.Gender
-import com.practice.rickyandmorty.domain.usecase.GetAllCharactersUseCase
+import com.practice.rickyandmorty.domain.usecase.GetCharactersByFilterUseCase
 import com.practice.rickyandmorty.ui.characters.CharacterListIntent
 import com.practice.rickyandmorty.ui.characters.CharacterListViewModel
 import io.mockk.coEvery
@@ -26,7 +26,7 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CharacterListViewModelTest {
-    private val useCase: GetAllCharactersUseCase = mockk(relaxed = true)
+    private val useCase: GetCharactersByFilterUseCase = mockk(relaxed = true)
 
     private lateinit var viewModel: CharacterListViewModel
 

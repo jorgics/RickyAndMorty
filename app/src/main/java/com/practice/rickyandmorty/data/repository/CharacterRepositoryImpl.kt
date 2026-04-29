@@ -10,8 +10,6 @@ import com.practice.rickyandmorty.data.mapper.toDomain
 import com.practice.rickyandmorty.data.remote.RickAndMortyService
 import com.practice.rickyandmorty.domain.model.Character
 import com.practice.rickyandmorty.domain.model.CharacterFilter
-import com.practice.rickyandmorty.domain.model.RickyAndMorty
-import com.practice.rickyandmorty.domain.model.toQueryMap
 import com.practice.rickyandmorty.domain.repository.CharacterRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -24,13 +22,6 @@ class CharacterRepositoryImpl @Inject constructor(
     private val api: RickAndMortyService,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : CharacterRepository {
-    override suspend fun getAllCharacters(): BaseResponse<RickyAndMorty<List<Character>>> {
-        return withContext(dispatcher) {
-            safeApiCall {
-                api.getAllCharacters().toDomain()
-            }
-        }
-    }
 
     override fun getPagedCharacters(filter: CharacterFilter): Flow<PagingData<Character>> {
         return Pager(
@@ -52,22 +43,6 @@ class CharacterRepositoryImpl @Inject constructor(
         return withContext(dispatcher) {
             safeApiCall {
                 api.getCharacterById(id).toDomain()
-            }
-        }
-    }
-
-    override suspend fun getMultipleCharacters(ids: List<Int>): BaseResponse<RickyAndMorty<List<Character>>> {
-        return withContext(dispatcher) {
-            safeApiCall {
-                api.getMultipleCharacters(ids.toString()).toDomain()
-            }
-        }
-    }
-
-    override suspend fun getCharactersByFilter(characterFilter: CharacterFilter): BaseResponse<RickyAndMorty<List<Character>>> {
-        return withContext(dispatcher) {
-            safeApiCall {
-                api.getCharactersByFilter(characterFilter.toQueryMap()).toDomain()
             }
         }
     }

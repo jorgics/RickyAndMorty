@@ -4,20 +4,11 @@ import com.practice.rickyandmorty.data.remote.model.CharacterDto
 import com.practice.rickyandmorty.data.remote.response.RickyAndMortyResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
-import retrofit2.http.Query
 import retrofit2.http.QueryMap
 
 interface RickAndMortyService {
-    @GET("character")
-    suspend fun getAllCharacters(): RickyAndMortyResponse<List<CharacterDto>>
-
     @GET("character/{id}")
     suspend fun getCharacterById(@Path("id") id: Int): CharacterDto
-
-    @GET("character/{ids}")
-    suspend fun getMultipleCharacters(
-        @Path("ids") ids: String
-    ): RickyAndMortyResponse<List<CharacterDto>>
 
     @GET("character")
     suspend fun getCharactersByFilter(

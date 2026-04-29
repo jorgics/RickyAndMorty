@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.practice.rickyandmorty.core.ui.viewmodel.BaseViewModel
 import com.practice.rickyandmorty.domain.model.CharacterFilter
-import com.practice.rickyandmorty.domain.usecase.GetAllCharactersUseCase
+import com.practice.rickyandmorty.domain.usecase.GetCharactersByFilterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CharacterListViewModel @Inject constructor(
-    private val getAllCharactersUseCase: GetAllCharactersUseCase
+    private val getCharactersByFilterUseCase: GetCharactersByFilterUseCase
 ) : BaseViewModel<CharacterListIntent, CharacterListState>(CharacterListState()) {
 
     @OptIn(FlowPreview::class)
@@ -28,7 +28,7 @@ class CharacterListViewModel @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     val pagingDataFlow = filterFlow
         .flatMapLatest { filter ->
-            getAllCharactersUseCase(filter)
+            getCharactersByFilterUseCase(filter)
         }
         .cachedIn(viewModelScope)
 

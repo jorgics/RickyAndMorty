@@ -5,7 +5,7 @@ import app.cash.turbine.test
 import com.practice.rickyandmorty.domain.model.CharacterFilter
 import com.practice.rickyandmorty.domain.model.Gender
 import com.practice.rickyandmorty.domain.repository.CharacterRepository
-import com.practice.rickyandmorty.domain.usecase.GetAllCharactersUseCase
+import com.practice.rickyandmorty.domain.usecase.GetCharactersByFilterUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.slot
@@ -15,10 +15,10 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
-class GetAllCharactersUseCaseTest {
+class GetCharactersByFilterUseCaseTest {
 
     private val repository: CharacterRepository = mockk()
-    private val useCase = GetAllCharactersUseCase(repository)
+    private val useCase = GetCharactersByFilterUseCase(repository)
 
     @Test
     fun `returns paging data`() = runTest {

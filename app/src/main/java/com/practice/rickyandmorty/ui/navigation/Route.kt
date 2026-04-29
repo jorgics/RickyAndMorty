@@ -1,13 +1,14 @@
 package com.practice.rickyandmorty.ui.navigation
 
 import androidx.navigation3.runtime.NavKey
+import com.practice.rickyandmorty.domain.model.CharacterFilter
 import kotlinx.serialization.Serializable
 
 sealed class Route: NavKey {
     @Serializable
     data object Splash: Route()
     @Serializable
-    data object CharacterList: Route()
+    data class CharacterList(val filter: CharacterFilter?): Route()
     @Serializable
     data class CharacterDetail(val id: Int?, val name: String?): Route()
     @Serializable

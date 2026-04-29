@@ -47,7 +47,7 @@ fun MyNavigation() {
             bottomBar = {
                 MyBottomBar(
                     selectedItem = selectedItem,
-                    onHomeClick = { backStack.navigateTo(Route.CharacterList) },
+                    onHomeClick = { backStack.navigateTo(Route.CharacterList(null)) },
                     onFavoritesClick = { backStack.navigateTo(Route.Favorites) },
                     onSearchClick = { backStack.navigateTo(Route.SearchCharacter) },
                     onProfileClick = { backStack.navigateTo(Route.Profile) }
@@ -80,14 +80,15 @@ fun NavContent(
         },
         entryProvider = entryProvider {
             entry<Route.Splash> {
-                SplashScreen(onNavigate = { backStack.navigateToSingleTop(Route.CharacterList) })
+                SplashScreen(onNavigate = { backStack.navigateToSingleTop(Route.CharacterList(null)) })
             }
 
-            entry<Route.CharacterList> {
+            entry<Route.CharacterList> { key ->
                 CharacterListScreen(
                     onDetailClick = { id, name ->
                         backStack.navigateTo(Route.CharacterDetail(id, name))
-                    }
+                    },
+                    filter = key.filter
                 )
             }
 
@@ -100,7 +101,9 @@ fun NavContent(
             }
 
             entry<Route.SearchCharacter> {
-                SearchScreen()
+                SearchScreen { filter ->
+                    backStack.navigateTo(Route.CharacterList(filter))
+                }
             }
 
             entry<Route.Profile> {

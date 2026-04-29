@@ -42,11 +42,11 @@ class GetAllCharactersUseCaseTest {
             repository.getPagedCharacters(capture(slot))
         } returns flowOf(PagingData.empty())
 
-        useCase(CharacterFilter(gender = Gender.Male)).test {
+        useCase(CharacterFilter(gender = Gender.Male.value)).test {
             awaitItem()
             awaitComplete()
         }
 
-        assertEquals(Gender.Male, slot.captured.gender)
+        assertEquals(Gender.Male.value, slot.captured.gender)
     }
 }

@@ -14,7 +14,6 @@ import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertNull
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
@@ -44,6 +43,7 @@ class CharacterDetailViewModelTest {
 
         assertEquals(true, state.isLoading)
         assertEquals(null, state.error)
+        assertEquals(Character(), state.character)
     }
 
     @Test
@@ -53,9 +53,8 @@ class CharacterDetailViewModelTest {
             CharacterDetailIntent.LoadCharacter(null)
         )
 
-        advanceTimeBy(1500)
+        advanceTimeBy( 10)
         val state = viewModel.state.value
-
         assertTrue(state.error is BaseException.NoData)
         assertFalse(state.isLoading)
     }
@@ -92,7 +91,6 @@ class CharacterDetailViewModelTest {
         )
 
         advanceUntilIdle()
-        advanceTimeBy(1500)
 
         val state = viewModel.state.value
 

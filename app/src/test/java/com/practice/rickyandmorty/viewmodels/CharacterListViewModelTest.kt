@@ -42,13 +42,13 @@ class CharacterListViewModelTest {
     fun `initial state is correct`() = runTest {
         val state = viewModel.state.value
 
-        assertEquals(null, state.selectedFilter)
+        assertEquals(false, state.retry)
         assertEquals(CharacterFilter(), state.filter)
     }
 
     @Test
     fun `ApplyFilter updates state`() = runTest {
-        val filter = CharacterFilter(gender = Gender.Male)
+        val filter = CharacterFilter(gender = Gender.Male.value)
 
         viewModel.sendIntent(
             CharacterListIntent.ApplyFilter(filter)
@@ -57,7 +57,6 @@ class CharacterListViewModelTest {
         val state = viewModel.state.value
 
         assertEquals(filter, state.filter)
-        assertEquals(Gender.Male, state.selectedFilter)
     }
 
     @Test
@@ -90,12 +89,12 @@ class CharacterListViewModelTest {
         repeat(5) {
             viewModel.sendIntent(
                 CharacterListIntent.ApplyFilter(
-                    CharacterFilter(gender = Gender.Male)
+                    CharacterFilter(name = "Rick")
                 )
             )
         }
 
-        advanceTimeBy(400)
+        advanceTimeBy(10)
         advanceUntilIdle()
 
         coVerify(exactly = 1) {

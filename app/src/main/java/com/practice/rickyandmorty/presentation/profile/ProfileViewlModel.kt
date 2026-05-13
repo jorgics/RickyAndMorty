@@ -1,10 +1,8 @@
 package com.practice.rickyandmorty.presentation.profile
 
-import androidx.lifecycle.viewModelScope
 import com.practice.rickyandmorty.core.ui.viewmodel.BaseViewModel
 import com.practice.rickyandmorty.domain.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel

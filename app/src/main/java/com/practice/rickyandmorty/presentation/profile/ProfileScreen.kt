@@ -231,8 +231,6 @@ fun HeaderProfile(
                 fontSize = 18.sp
             )
             Spacer(modifier = Modifier.size(8.dp))
-            Text(text = "Cientifico loco", color = GrayMedium)
-            Spacer(modifier = Modifier.size(8.dp))
             Text(text = email, color = Color.White)
         }
     }

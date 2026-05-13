@@ -1,4 +1,4 @@
-package com.practice.rickyandmorty.ui.navigation
+package com.practice.rickyandmorty.presentation.navigation
 
 import androidx.navigation3.runtime.NavKey
 import com.practice.rickyandmorty.domain.model.CharacterFilter

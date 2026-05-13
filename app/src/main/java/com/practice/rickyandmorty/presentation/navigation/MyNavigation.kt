@@ -1,4 +1,4 @@
-package com.practice.rickyandmorty.ui.navigation
+package com.practice.rickyandmorty.presentation.navigation
 
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
@@ -18,12 +18,12 @@ import com.practice.rickyandmorty.core.extensions.navigateTo
 import com.practice.rickyandmorty.core.extensions.navigateToSingleTop
 import com.practice.rickyandmorty.core.ui.MyBottomBar
 import com.practice.rickyandmorty.core.ui.MyScaffold
-import com.practice.rickyandmorty.ui.detail.CharacterDetailScreen
-import com.practice.rickyandmorty.ui.characters.CharacterListScreen
-import com.practice.rickyandmorty.ui.favorites.FavoritesScreen
-import com.practice.rickyandmorty.ui.profile.ProfileScreen
-import com.practice.rickyandmorty.ui.search.SearchScreen
-import com.practice.rickyandmorty.ui.splash.SplashScreen
+import com.practice.rickyandmorty.presentation.detail.CharacterDetailScreen
+import com.practice.rickyandmorty.presentation.characters.CharacterListScreen
+import com.practice.rickyandmorty.presentation.favorites.FavoritesScreen
+import com.practice.rickyandmorty.presentation.profile.ProfileScreen
+import com.practice.rickyandmorty.presentation.search.SearchScreen
+import com.practice.rickyandmorty.presentation.splash.SplashScreen
 
 @Composable
 fun MyNavigation() {

@@ -1,4 +1,4 @@
-package com.practice.rickyandmorty.ui.splash
+package com.practice.rickyandmorty.presentation.splash
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

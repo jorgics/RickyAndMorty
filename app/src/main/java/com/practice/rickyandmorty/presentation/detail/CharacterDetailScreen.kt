@@ -1,4 +1,4 @@
-package com.practice.rickyandmorty.ui.detail
+package com.practice.rickyandmorty.presentation.detail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

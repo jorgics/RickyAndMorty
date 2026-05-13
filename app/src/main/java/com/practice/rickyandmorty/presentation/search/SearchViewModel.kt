@@ -1,4 +1,4 @@
-package com.practice.rickyandmorty.ui.search
+package com.practice.rickyandmorty.presentation.search
 
 import com.practice.rickyandmorty.core.ui.viewmodel.BaseViewModel
 import com.practice.rickyandmorty.domain.model.CharacterFilter

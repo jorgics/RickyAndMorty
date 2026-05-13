@@ -1,4 +1,4 @@
-package com.practice.rickyandmorty.ui.search
+package com.practice.rickyandmorty.presentation.search
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

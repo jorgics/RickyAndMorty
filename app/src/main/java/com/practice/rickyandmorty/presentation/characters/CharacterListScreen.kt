@@ -1,4 +1,4 @@
-package com.practice.rickyandmorty.ui.characters
+package com.practice.rickyandmorty.presentation.characters
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background

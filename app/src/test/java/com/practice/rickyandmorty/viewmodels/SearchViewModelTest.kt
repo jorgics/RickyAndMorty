@@ -1,8 +1,8 @@
 package com.practice.rickyandmorty.viewmodels
 
 import app.cash.turbine.test
-import com.practice.rickyandmorty.ui.search.SearchIntent
-import com.practice.rickyandmorty.ui.search.SearchViewModel
+import com.practice.rickyandmorty.presentation.search.SearchIntent
+import com.practice.rickyandmorty.presentation.search.SearchViewModel
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.test.runTest
 import org.junit.Before

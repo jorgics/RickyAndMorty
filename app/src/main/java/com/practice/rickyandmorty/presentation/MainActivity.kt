@@ -1,4 +1,4 @@
-package com.practice.rickyandmorty.ui
+package com.practice.rickyandmorty.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

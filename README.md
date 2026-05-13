@@ -14,9 +14,9 @@
 |:----------------------------------------------------------------------------:|:-------------------------------------------------------------------------:|
 | <img src="screenshots/FavoritesScreen.png" style="height: 25%; width:75%;"/> | <img src="screenshots/SearchScreen.png" style="height: 25%; width:75%;"/> |
 
-|                                  Splash                                   |
+|                                  Profile                                   |
 |:-------------------------------------------------------------------------:|
-| <img src="screenshots/SplashScreen.png" style="height: 25%; width:30%;"/> |
+| <img src="screenshots/ProfileScreen.png" style="height: 25%; width:30%;"/> |
 
 ## Instalación y Configuración
 

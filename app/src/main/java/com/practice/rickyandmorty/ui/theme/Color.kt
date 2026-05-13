@@ -12,6 +12,8 @@ val GrayLight = Color(0xFFB3B3B3)
 val GrayMedium = Color(0xFF8A8A8A)
 val Black800 = Color(0xFF424242)
 
+val Green = Color(0xFF6BAA1F)
+
 val BackgroundBrush = Brush.verticalGradient(
     colors = listOf(
         Black,
@@ -25,5 +27,12 @@ val ImageOverlay = Brush.verticalGradient(
         Color.Transparent,
         Color.Black.copy(alpha = 0.6f),
         Color.Black
+    )
+)
+
+val FilterSelectedGradient = Brush.horizontalGradient(
+    listOf(
+        Color(0xFF6BAA1F),
+        Color(0xFF8BCF2F)
     )
 )

@@ -1,4 +1,4 @@
-package com.practice.rickyandmorty.ui.profile
+package com.practice.rickyandmorty.presentation.profile
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

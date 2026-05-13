@@ -1,4 +1,4 @@
-package com.practice.rickyandmorty.ui.characters
+package com.practice.rickyandmorty.presentation.characters
 
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn

@@ -1,4 +1,4 @@
-package com.practice.rickyandmorty.ui.detail
+package com.practice.rickyandmorty.presentation.detail
 
 import androidx.lifecycle.viewModelScope
 import com.practice.rickyandmorty.core.data.exceptions.BaseException

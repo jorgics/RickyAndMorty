@@ -14,6 +14,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,6 +36,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.practice.rickyandmorty.R
 import com.practice.rickyandmorty.core.ui.FilterLayout
 import com.practice.rickyandmorty.domain.model.CharacterFilter
+import com.practice.rickyandmorty.ui.theme.GrayMedium
 import com.practice.rickyandmorty.ui.theme.Green
 
 @Composable
@@ -165,6 +167,20 @@ fun FilterNameLayout(
             ),
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Search
+            ),
+            colors = OutlinedTextFieldDefaults.colors(
+                unfocusedTextColor = GrayMedium,
+                unfocusedBorderColor = GrayMedium,
+                unfocusedLabelColor = GrayMedium,
+                unfocusedTrailingIconColor = GrayMedium,
+                unfocusedPlaceholderColor = GrayMedium,
+                unfocusedLeadingIconColor = GrayMedium,
+                focusedPlaceholderColor = Green,
+                focusedLeadingIconColor = Green,
+                focusedTrailingIconColor = Green,
+                focusedLabelColor = Green,
+                focusedTextColor = Green,
+                focusedBorderColor = Green
             )
         )
     }

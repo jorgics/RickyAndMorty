@@ -22,12 +22,14 @@ fun CharacterFilter.toQueryMap(): Map<String, String> {
 }
 
 sealed class Status(val value: String) {
+    data object All : Status("all")
     data object Alive : Status("alive")
     data object Dead : Status("dead")
     data object Unknown : Status("unknown")
 }
 
 sealed class Gender(val value: String) {
+    data object All : Gender("all")
     data object Female : Gender("female")
     data object Male : Gender("male")
     data object Genderless : Gender("genderless")

@@ -163,6 +163,7 @@ fun CharacterItem(character: Character, onClick: (Int?, String?) -> Unit) {
                     )
                     Text(text = character.species ?: "Unknown", color = Color.Green)
                     Text(text = character.gender ?: "Unknown")
+                    Text(text = character.status ?: "Unknown")
                 }
 
                 Spacer(modifier = Modifier.width(16.dp))

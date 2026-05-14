@@ -49,12 +49,4 @@ object RickyAndMortyModule {
     @Singleton
     fun provideCharacterRepository(api: RickAndMortyService): CharacterRepository =
         CharacterRepositoryImpl(api)
-
-    @Provides
-    fun provideGetCharacterByIdUseCase(repository: CharacterRepository) =
-        GetCharacterByIdUseCase(repository)
-
-    @Provides
-    fun provideGetCharactersByFilterUseCase(repository: CharacterRepository) =
-        GetCharactersByFilterUseCase(repository)
 }

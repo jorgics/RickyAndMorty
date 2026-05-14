@@ -41,17 +41,13 @@ class CharacterDetailViewModel @Inject constructor(
     }
 
     override fun sendIntent(intent: CharacterDetailIntent) {
-        viewModelScope.launch {
-            handleIntents(intent)
-        }
+        handleIntents(intent)
     }
 
     override fun handleIntents(intent: CharacterDetailIntent) {
-        viewModelScope.launch {
-            when (intent) {
-                is CharacterDetailIntent.LoadCharacter -> {
-                    getCharacterById(intent.id)
-                }
+        when (intent) {
+            is CharacterDetailIntent.LoadCharacter -> {
+                getCharacterById(intent.id)
             }
         }
     }

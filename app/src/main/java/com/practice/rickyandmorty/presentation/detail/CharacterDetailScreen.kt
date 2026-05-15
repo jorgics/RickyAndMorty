@@ -5,9 +5,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -24,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.practice.rickyandmorty.core.data.exceptions.BaseException
+import com.practice.rickyandmorty.core.ui.ExpandableContent
 import com.practice.rickyandmorty.core.ui.MyErrorDialog
 import com.practice.rickyandmorty.core.ui.MyHorizontalSpacer
 import com.practice.rickyandmorty.core.ui.MyImage
@@ -84,11 +87,18 @@ fun CharacterDetailItem(character: Character) {
             contentScale = ContentScale.Crop
         )
 
-        Box(
+        ExpandableContent(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 350.dp),
-            contentAlignment = Alignment.BottomCenter
+                .background(
+                    color = CardBackground,
+                    shape = RoundedCornerShape(
+                        topStart = 12.dp,
+                        topEnd = 12.dp,
+                        bottomEnd = 0.dp,
+                        bottomStart = 0.dp
+                    )
+                )
         ) {
             CharacterInfoGrid(character)
         }
@@ -100,6 +110,7 @@ fun CharacterInfoGrid(character: Character) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            //.defaultMinSize(minHeight = 350.dp)
             .background(
                 color = CardBackground,
                 shape = RoundedCornerShape(
@@ -109,7 +120,9 @@ fun CharacterInfoGrid(character: Character) {
                     bottomStart = 0.dp
                 )
             )
-            .padding(16.dp)
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
     ) {
 
         Row(
@@ -175,7 +188,8 @@ fun CharacterDetailScreenPreview() {
             id = 1,
             name = "Rick Sanchez",
             species = "Human"
-        )
+        ),
+        isLoading = false
     )
 
     CharacterDetailScreenContent(uiState = uiState)

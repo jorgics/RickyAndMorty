@@ -30,41 +30,45 @@ fun MyBottomBar(
     onSearchClick: () -> Unit = {},
     onProfileClick: () -> Unit = {}
 ) {
-    NavigationBar(
-        containerColor = Color.Transparent,
-        contentColor = Color.White
-    ) {
-        MyBottomItem(
-            modifier = Modifier.weight(1f),
-            selected = selectedItem == BottomItem.EXPLORE,
-            icon = R.drawable.home_24px,
-            label = BottomItem.EXPLORE.name,
-            onClick = onHomeClick
-        )
+    Column {
+        MyHorizontalSpacer()
 
-        MyBottomItem(
-            modifier = Modifier.weight(1f),
-            selected = selectedItem == BottomItem.FAVORITES,
-            icon = R.drawable.favorite_24px,
-            label = BottomItem.FAVORITES.name,
-            onClick = onFavoritesClick
-        )
+        NavigationBar(
+            containerColor = Color.Transparent,
+            contentColor = Color.White
+        ) {
+            MyBottomItem(
+                modifier = Modifier.weight(1f),
+                selected = selectedItem == BottomItem.EXPLORE,
+                icon = R.drawable.home_24px,
+                label = BottomItem.EXPLORE.name,
+                onClick = onHomeClick
+            )
 
-        MyBottomItem(
-            modifier = Modifier.weight(1f),
-            selected = selectedItem == BottomItem.SEARCH,
-            icon = R.drawable.search_24px,
-            label = BottomItem.SEARCH.name,
-            onClick = onSearchClick
-        )
+            MyBottomItem(
+                modifier = Modifier.weight(1f),
+                selected = selectedItem == BottomItem.FAVORITES,
+                icon = R.drawable.favorite_24px,
+                label = BottomItem.FAVORITES.name,
+                onClick = onFavoritesClick
+            )
 
-        MyBottomItem(
-            modifier = Modifier.weight(1f),
-            selected = selectedItem == BottomItem.PROFILE,
-            icon = R.drawable.person_24px,
-            label = BottomItem.PROFILE.name,
-            onClick = onProfileClick
-        )
+            MyBottomItem(
+                modifier = Modifier.weight(1f),
+                selected = selectedItem == BottomItem.SEARCH,
+                icon = R.drawable.search_24px,
+                label = BottomItem.SEARCH.name,
+                onClick = onSearchClick
+            )
+
+            MyBottomItem(
+                modifier = Modifier.weight(1f),
+                selected = selectedItem == BottomItem.PROFILE,
+                icon = R.drawable.person_24px,
+                label = BottomItem.PROFILE.name,
+                onClick = onProfileClick
+            )
+        }
     }
 }
 

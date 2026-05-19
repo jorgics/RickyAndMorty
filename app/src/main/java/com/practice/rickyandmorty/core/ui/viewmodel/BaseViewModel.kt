@@ -19,5 +19,5 @@ abstract class BaseViewModel<Intent, State>(
 
     abstract fun sendIntent(intent: Intent)
 
-    abstract fun handleIntents(intent: Intent)
+    protected abstract fun handleIntents(intent: Intent)
 }

@@ -5,11 +5,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,7 +21,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.practice.rickyandmorty.core.data.exceptions.BaseException
 import com.practice.rickyandmorty.core.ui.ExpandableContent
@@ -32,10 +29,10 @@ import com.practice.rickyandmorty.core.ui.MyHorizontalSpacer
 import com.practice.rickyandmorty.core.ui.MyImage
 import com.practice.rickyandmorty.core.ui.MyImageSource
 import com.practice.rickyandmorty.core.ui.MyLoadingProgress
+import com.practice.rickyandmorty.core.ui.TextValueColumn
 import com.practice.rickyandmorty.domain.model.Character
 import com.practice.rickyandmorty.ui.theme.CardBackground
 import com.practice.rickyandmorty.ui.theme.GrayLight
-import com.practice.rickyandmorty.ui.theme.GrayMedium
 
 @Composable
 fun CharacterDetailScreen(
@@ -110,7 +107,6 @@ fun CharacterInfoGrid(character: Character) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            //.defaultMinSize(minHeight = 350.dp)
             .background(
                 color = CardBackground,
                 shape = RoundedCornerShape(
@@ -129,8 +125,8 @@ fun CharacterInfoGrid(character: Character) {
             Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            InfoItem(modifier = Modifier.weight(1f), title = "STATUS", value = character.status)
-            InfoItem(modifier = Modifier.weight(1f), title = "SPECIE", value = character.species)
+            TextValueColumn(modifier = Modifier.weight(1f), title = "STATUS", value = character.status)
+            TextValueColumn(modifier = Modifier.weight(1f), title = "SPECIE", value = character.species)
         }
 
         MyHorizontalSpacer(Modifier.padding(vertical = 8.dp))
@@ -139,8 +135,8 @@ fun CharacterInfoGrid(character: Character) {
             Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            InfoItem(modifier = Modifier.weight(1f), title = "GENDER", value = character.gender)
-            InfoItem(
+            TextValueColumn(modifier = Modifier.weight(1f), title = "GENDER", value = character.gender)
+            TextValueColumn(
                 modifier = Modifier.weight(1f),
                 title = "ORIGEN",
                 value = character.origin?.name
@@ -161,22 +157,6 @@ fun CharacterInfoGrid(character: Character) {
             text = character.episode?.size.toString() + " episodes",
             color = GrayLight
         )
-    }
-}
-
-@Composable
-fun InfoItem(
-    modifier: Modifier = Modifier,
-    title: String,
-    value: String?
-) {
-    Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.Start,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(title, color = GrayMedium, fontSize = 12.sp)
-        Text(value ?: "Unknown", color = Color.White, fontWeight = FontWeight.Bold)
     }
 }
 

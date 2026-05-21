@@ -97,8 +97,15 @@ dependencies {
     implementation(libs.kotlinx.serialization.core)
 
     // Paging 3
-    implementation(libs.paging.runtime)
+    implementation(libs.paging.common)
     implementation(libs.paging.compose)
+
+    // Room
+    implementation(libs.room.runtime)
+    implementation(libs.room)
+    implementation(libs.room.paging)
+    annotationProcessor(libs.room.compiler)
+    ksp(libs.room.compiler)
 
     // Mockk
     testImplementation(libs.io.mockk)

@@ -2,10 +2,6 @@ package com.practice.rickyandmorty.data.di
 
 import com.practice.rickyandmorty.BuildConfig
 import com.practice.rickyandmorty.data.remote.RickAndMortyService
-import com.practice.rickyandmorty.data.repository.CharacterRepositoryImpl
-import com.practice.rickyandmorty.domain.repository.CharacterRepository
-import com.practice.rickyandmorty.domain.usecase.GetCharactersByFilterUseCase
-import com.practice.rickyandmorty.domain.usecase.GetCharacterByIdUseCase
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -20,7 +16,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RickyAndMortyModule {
+object NetworkModule {
     @Provides
     @Singleton
     fun provideMoshi(): Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
@@ -44,9 +40,4 @@ object RickyAndMortyModule {
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
             .create(RickAndMortyService::class.java)
-
-    @Provides
-    @Singleton
-    fun provideCharacterRepository(api: RickAndMortyService): CharacterRepository =
-        CharacterRepositoryImpl(api)
 }

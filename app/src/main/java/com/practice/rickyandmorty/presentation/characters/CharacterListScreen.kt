@@ -47,7 +47,6 @@ fun CharacterListScreen(
 ) {
     val uiState by viewModel.state.collectAsState()
     val pagingItems = viewModel.pagingDataFlow.collectAsLazyPagingItems()
-    val loadState = pagingItems.loadState.refresh
 
     LaunchedEffect(true) {
         filter?.let {
@@ -58,7 +57,6 @@ fun CharacterListScreen(
     CharacterListScreenContent(
         uiState = uiState,
         pagingItems = pagingItems,
-        loadState = loadState,
         onIntent = { viewModel.sendIntent(it) },
         onDetailClick = onDetailClick
     )
@@ -68,7 +66,6 @@ fun CharacterListScreen(
 fun CharacterListScreenContent(
     uiState: CharacterListState,
     pagingItems: LazyPagingItems<Character>,
-    loadState: LoadState,
     onIntent: (CharacterListIntent) -> Unit,
     onDetailClick: (Int?, String?) -> Unit
 ) {
@@ -76,21 +73,24 @@ fun CharacterListScreenContent(
         pagingItems.retry()
     }
 
-    when {
-        loadState is LoadState.Loading && pagingItems.itemCount == 0 -> LoadingEvent()
-        loadState is LoadState.NotLoading && pagingItems.itemCount == 0 -> {
-            EmptyListEvent()
-        }
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        CharacterListEvent(
+            pagingItems = pagingItems,
+            onRetry = { onIntent(CharacterListIntent.Retry) },
+            onDetailClick = onDetailClick
+        )
 
-        pagingItems.loadState.hasError -> {
-            ErrorEvent { onIntent(CharacterListIntent.Retry) }
-        }
+        when (pagingItems.loadState.refresh) {
+            is LoadState.Loading -> LoadingEvent()
+            is LoadState.NotLoading -> if (pagingItems.itemCount == 0) {
+                EmptyListEvent()
+            }
 
-        else -> {
-            CharacterListEvent(
-                pagingItems = pagingItems,
-                onDetailClick = onDetailClick
-            )
+            is LoadState.Error -> if (pagingItems.itemCount == 0) {
+                ErrorEvent { onIntent(CharacterListIntent.Retry) }
+            }
         }
     }
 }
@@ -98,6 +98,7 @@ fun CharacterListScreenContent(
 @Composable
 fun CharacterListEvent(
     pagingItems: LazyPagingItems<Character>,
+    onRetry: () -> Unit = {},
     onDetailClick: (Int?, String?) -> Unit
 ) {
     LazyColumn(
@@ -114,9 +115,12 @@ fun CharacterListEvent(
             }
         }
 
-        when (pagingItems.loadState.append) {
-            is LoadState.Loading -> item { LoadingEvent() }
-            else -> Unit
+        item {
+            when (pagingItems.loadState.append) {
+                is LoadState.Loading -> LoadingEvent()
+                is LoadState.Error -> ErrorEvent { onRetry() }
+                else -> Unit
+            }
         }
     }
 }
@@ -226,7 +230,6 @@ fun CharacterListScreenPreview() {
     CharacterListScreenContent(
         uiState = CharacterListState(filter = CharacterFilter()),
         pagingItems = pagingItems,
-        loadState = LoadState.NotLoading(false),
         onIntent = {},
         onDetailClick = { _, _ -> }
     )

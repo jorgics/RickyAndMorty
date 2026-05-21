@@ -1,6 +1,8 @@
 package com.practice.rickyandmorty.core.ui
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Easing
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
@@ -9,7 +11,10 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -23,8 +28,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import com.practice.rickyandmorty.R
 
 @Composable
@@ -78,6 +86,48 @@ fun ExpandableContent(
             exit = shrinkVertically(shrinkTowards = Alignment.Top) + fadeOut()
         ) {
             content()
+        }
+    }
+}
+
+@Composable
+fun FlipContent(
+    modifier: Modifier = Modifier,
+    initialFlipped: Boolean = false,
+    durationMillis: Int = 600,
+    easing: Easing = FastOutSlowInEasing,
+    cameraDistanceFactor: Float = 12f,
+    front: @Composable BoxScope.(flipAction: () -> Unit) -> Unit,
+    back: @Composable BoxScope.(flipAction: () -> Unit) -> Unit
+) {
+    var flipped by remember { mutableStateOf(initialFlipped) }
+    val rotation by animateFloatAsState(
+        targetValue = if (flipped) 180f else 0f,
+        animationSpec = tween(durationMillis = durationMillis, easing = easing),
+        label = "flip-rotation"
+    )
+
+    val density = LocalDensity.current
+    val cameraDistancePx = with(density) { 48.dp.toPx() } * cameraDistanceFactor
+
+    val flipAction = { flipped = !flipped }
+
+    Box(
+        modifier = modifier.graphicsLayer {
+            rotationY = rotation
+            cameraDistance = cameraDistancePx
+        },
+        contentAlignment = Alignment.Center
+    ) {
+        if (rotation <= 90f) {
+            Box(modifier = Modifier.fillMaxSize(), content = { front(flipAction) })
+        } else {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .graphicsLayer { rotationY = 180f },
+                content = { back(flipAction) }
+            )
         }
     }
 }

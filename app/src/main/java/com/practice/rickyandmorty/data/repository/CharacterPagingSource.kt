@@ -19,11 +19,9 @@ class CharacterPagingSource @Inject constructor(
         return try {
             val page = params.key ?: 1
 
-            val query = filter.toQueryMap().toMutableMap().apply {
-                put("page", page.toString())
-            }
+            val query = filter.toQueryMap()
 
-            val response = api.getCharactersByFilter(query)
+            val response = api.getCharactersByFilter(page, query)
             val data = response.results ?: emptyList()
             val nextPage = if (response.info?.next != null) page + 1 else null
             val prevKey = if (page > 0) page - 1 else null

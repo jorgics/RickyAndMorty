@@ -1,4 +1,4 @@
-package com.practice.rickyandmorty.data.repository
+package com.practice.rickyandmorty.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState

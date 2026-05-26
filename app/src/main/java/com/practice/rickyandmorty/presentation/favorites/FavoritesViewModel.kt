@@ -1,30 +1,27 @@
 package com.practice.rickyandmorty.presentation.favorites
 
-import com.practice.rickyandmorty.core.ui.viewmodel.BaseViewModel
-import com.practice.rickyandmorty.domain.model.Character
+import androidx.lifecycle.viewModelScope
+import com.practice.rickyandmorty.core.data.exceptions.BaseException
+import com.practice.rickyandmorty.core.presentation.viewmodel.BaseViewModel
+import com.practice.rickyandmorty.domain.model.Favorite
+import com.practice.rickyandmorty.domain.usecase.DeleteFavoriteUseCase
+import com.practice.rickyandmorty.domain.usecase.GetFavoritesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(
-
+    private val getFavoritesUseCase: GetFavoritesUseCase,
+    private val deleteFavoriteUseCase: DeleteFavoriteUseCase
 ) : BaseViewModel<FavoritesIntent, FavoritesState>(FavoritesState()) {
 
-    @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
-    val favoritesFlow = state
-        .map { it.characters }
-        .distinctUntilChanged()
-        .debounce(300)
-        .flatMapLatest { characters ->
-            flowOf(characters)
-        }
+    init {
+        sendIntent(FavoritesIntent.LoadFavorites)
+    }
 
     override fun sendIntent(intent: FavoritesIntent) {
         handleIntents(intent)
@@ -32,58 +29,53 @@ class FavoritesViewModel @Inject constructor(
 
     override fun handleIntents(intent: FavoritesIntent) {
         when (intent) {
-            FavoritesIntent.EmptyCharacters -> setState {
-                copy(characters = emptyList())
-            }
-            FavoritesIntent.LoadCharacters -> setState {
-                copy(characters = characters)
+            FavoritesIntent.LoadFavorites -> loadFavorites()
+            is FavoritesIntent.DeleteFavorite -> deleteFavorite(intent.id)
+            is FavoritesIntent.ShowDeleteDialog -> setState {
+                copy(
+                    isDelete = !state.value.isDelete,
+                    favorite = intent.favorite
+                )
             }
 
-            is FavoritesIntent.DeleteFavorite -> setState {
-                copy(characters = characters.drop(intent.id))
-            }
+            FavoritesIntent.DismissDeleteDialog -> dismissDeleteDialog()
         }
     }
 
+    private fun loadFavorites() {
+        getFavoritesUseCase.invoke()
+            .onEach { list ->
+                setState { copy(isLoading = false, favorites = list) }
+            }
+            .catch { _ ->
+                setState{ copy(isLoading = false, error = BaseException.Unknown()) }
+            }
+            .launchIn(viewModelScope)
+    }
+
+    private fun deleteFavorite(id: Int) {
+        viewModelScope.launch {
+            deleteFavoriteUseCase.invoke(id)
+            setState { copy(isDelete = false) }
+        }
+    }
+
+    private fun dismissDeleteDialog() {
+        setState { copy(isDelete = false) }
+    }
 }
 
 data class FavoritesState(
-    val characters: List<Character> = getList(),
-    val currentCharacter: Character? = null,
+    val favorites: List<Favorite> = emptyList(),
     val isLoading: Boolean = true,
+    val error: BaseException? = null,
+    val isDelete: Boolean = false,
+    val favorite: Favorite? = null,
 )
 
 sealed class FavoritesIntent {
-    data object LoadCharacters : FavoritesIntent()
-    data object EmptyCharacters : FavoritesIntent()
+    data object LoadFavorites : FavoritesIntent()
+    data object DismissDeleteDialog : FavoritesIntent()
+    data class ShowDeleteDialog(val favorite: Favorite) : FavoritesIntent()
     data class DeleteFavorite(val id: Int) : FavoritesIntent()
 }
-
-fun getList() = listOf(character, character2, character3)
-
-val character = Character(
-    id = 1,
-    name = "Ricky",
-    status = "Dead",
-    gender = "Male",
-    species = "Human",
-    image = "https://rickandmortyapi.com/api/character/avatar/1.jpeg"
-)
-
-val character2 = Character(
-    id = 2,
-    name = "Joel",
-    status = "Dead",
-    gender = "Male",
-    species = "Human",
-    image = "https://rickandmortyapi.com/api/character/avatar/2.jpeg"
-)
-
-val character3 = Character(
-    id = 3,
-    name = "Adam",
-    status = "Dead",
-    gender = "Male",
-    species = "Human",
-    image = "https://rickandmortyapi.com/api/character/avatar/3.jpeg"
-)

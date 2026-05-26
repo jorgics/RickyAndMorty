@@ -10,7 +10,7 @@ sealed class Route: NavKey {
     @Serializable
     data class CharacterList(val filter: CharacterFilter?): Route()
     @Serializable
-    data class CharacterDetail(val id: Int?, val name: String?): Route()
+    data class CharacterDetail(val id: Int, val name: String?): Route()
     @Serializable
     data object SearchCharacter: Route()
     @Serializable

@@ -14,9 +14,13 @@
 |:----------------------------------------------------------------------------:|:-------------------------------------------------------------------------:|
 | <img src="screenshots/FavoritesScreen.png" style="height: 25%; width:75%;"/> | <img src="screenshots/SearchScreen.png" style="height: 25%; width:75%;"/> |
 
-|                                  Profile                                   |
-|:-------------------------------------------------------------------------:|
-| <img src="screenshots/ProfileScreen.png" style="height: 25%; width:30%;"/> |
+|                                  Profile Logout                                  |                                  Profile Login                                  |
+|:--------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------:|
+| <img src="screenshots/ProfileLogoutScreen.png" style="height: 25%; width:75%;"/> | <img src="screenshots/ProfileLoginScreen.png" style="height: 25%; width:75%;"/> |
+
+|                               Demo                                |
+|:-----------------------------------------------------------------:|
+| <img src="screenshots/Demo.gif" style="height: 25%; width:30%;"/> |
 
 ## Instalación y Configuración
 
@@ -40,10 +44,11 @@ Para ejecutar este proyecto localmente, sigue estos pasos:
 - **Jetpack Compose**: Kit de herramientas moderno para crear interfaces de usuario nativas de Android.
 - **Hilt (Dagger)**: Biblioteca de inyección de dependencias para Android que reduce el código repetitivo.
 - **Retrofit & Moshi**: Cliente HTTP para consumir la API de Rick and Morty y biblioteca de serialización JSON.
-- **Coil**: Biblioteca de carga de imágenes moderna respaldada por corrutinas de Kotlin.
+- **Coil 3**: Biblioteca de carga de imágenes moderna respaldada por corrutinas de Kotlin.
 - **Paging 3**: Permite cargar y mostrar páginas de datos de un conjunto de datos más grande desde el almacenamiento local o la red.
 - **Navigation 3**: Sistema de navegación moderno para Compose que facilita la transición entre pantallas.
 - **Kotlin Coroutines & Flow**: Para el manejo de operaciones asíncronas y flujos de datos reactivos.
+- **Room**: Base de datos local para persistencia de datos y soporte offline.
 
 ---
 
@@ -59,12 +64,12 @@ MVI (Model-View-Intent) es un patrón unidireccional en el que la Vista emite In
 ## Cosas por Hacer (To Do)
 
 ### Pantallas y Funcionalidades
-- [ ] **Pantalla de Favoritos**: Permitir a los usuarios guardar sus personajes favoritos.
-- [ ] **Pantalla de Perfil**: Información detallada del usuario o estadísticas.
-- [ ] **Búsqueda Avanzada**: Filtros por estado, especie, género, etc.
+- [x] **Pantalla de Favoritos**: Permitir a los usuarios guardar sus personajes favoritos.
+- [x] **Pantalla de Perfil**: Información detallada del usuario o estadísticas.
+- [x] **Búsqueda Avanzada**: Filtros por estado, especie, género, etc.
 
 ### Mejoras Técnicas
-- [ ] **Soporte Offline con Room**: Implementar una base de datos local para que la app funcione sin conexión a internet.
+- [x] **Soporte Offline con Room**: Implementar una base de datos local para que la app funcione sin conexión a internet.
 - [ ] **Pruebas Unitarias y de UI**: Aumentar la cobertura de tests para asegurar la estabilidad.
 - [ ] **Animaciones Avanzadas**: Mejorar la experiencia de usuario con transiciones suaves entre pantallas.
 - [ ] **Modo Oscuro/Claro**: Soporte completo para temas dinámicos.

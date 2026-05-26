@@ -23,20 +23,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.practice.rickyandmorty.core.data.exceptions.BaseException
-import com.practice.rickyandmorty.core.ui.ExpandableContent
-import com.practice.rickyandmorty.core.ui.MyErrorDialog
-import com.practice.rickyandmorty.core.ui.MyHorizontalSpacer
-import com.practice.rickyandmorty.core.ui.MyImage
-import com.practice.rickyandmorty.core.ui.MyImageSource
-import com.practice.rickyandmorty.core.ui.MyLoadingProgress
-import com.practice.rickyandmorty.core.ui.TextValueColumn
+import com.practice.rickyandmorty.ui.components.ExpandableContent
+import com.practice.rickyandmorty.ui.components.MyDialog
+import com.practice.rickyandmorty.ui.components.MyErrorDialog
+import com.practice.rickyandmorty.ui.components.MyFavoriteButton
+import com.practice.rickyandmorty.ui.components.MyHorizontalSpacer
+import com.practice.rickyandmorty.ui.components.MyImage
+import com.practice.rickyandmorty.ui.components.MyImageSource
+import com.practice.rickyandmorty.ui.components.MyLoadingProgress
+import com.practice.rickyandmorty.ui.components.TextValueColumn
 import com.practice.rickyandmorty.domain.model.Character
 import com.practice.rickyandmorty.ui.theme.CardBackground
 import com.practice.rickyandmorty.ui.theme.GrayLight
 
 @Composable
 fun CharacterDetailScreen(
-    id: Int?,
+    id: Int,
     viewModel: CharacterDetailViewModel = hiltViewModel()
 ) {
     val uiState = viewModel.state.collectAsState().value
@@ -45,11 +47,14 @@ fun CharacterDetailScreen(
         viewModel.sendIntent(CharacterDetailIntent.LoadCharacter(id))
     }
 
-    CharacterDetailScreenContent(uiState = uiState)
+    CharacterDetailScreenContent(uiState = uiState, onIntent = { viewModel.sendIntent(it) })
 }
 
 @Composable
-fun CharacterDetailScreenContent(uiState: CharacterDetailState) {
+fun CharacterDetailScreenContent(
+    uiState: CharacterDetailState,
+    onIntent: (CharacterDetailIntent) -> Unit
+) {
     when {
         uiState.isLoading -> {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -64,13 +69,36 @@ fun CharacterDetailScreenContent(uiState: CharacterDetailState) {
         }
 
         else -> {
-            CharacterDetailItem(character = uiState.character)
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                if (uiState.isDialog) {
+                    MyDialog(
+                        title = "Add to favorites",
+                        description = "Do you want to add ${uiState.character?.name} to your favorites?",
+                        onConfirm = { onIntent(CharacterDetailIntent.ToogleFavorite) },
+                        onDismiss = { onIntent(CharacterDetailIntent.DismissFavoriteDialog) }
+                    )
+                }
+
+                uiState.character?.let {
+                    CharacterDetailItem(
+                        character = uiState.character,
+                        isFavorite = uiState.isFavorite,
+                        onFavoriteClick = {
+                            onIntent(CharacterDetailIntent.ShowFavoriteDialog)
+                        }
+                    )
+                }
+            }
         }
     }
 }
 
 @Composable
-fun CharacterDetailItem(character: Character) {
+fun CharacterDetailItem(
+    character: Character,
+    isFavorite: Boolean,
+    onFavoriteClick: () -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -84,6 +112,14 @@ fun CharacterDetailItem(character: Character) {
             contentScale = ContentScale.Crop
         )
 
+        MyFavoriteButton(
+            modifier = Modifier.align(Alignment.TopEnd),
+            size = 32.dp,
+            isFavorite = isFavorite,
+            isDisable = isFavorite,
+            onToggle = { onFavoriteClick() }
+        )
+
         ExpandableContent(
             modifier = Modifier
                 .fillMaxWidth()
@@ -95,7 +131,9 @@ fun CharacterDetailItem(character: Character) {
                         bottomEnd = 0.dp,
                         bottomStart = 0.dp
                     )
-                )
+                ),
+            initialExpanded = true,
+            size = 32.dp
         ) {
             CharacterInfoGrid(character)
         }
@@ -125,8 +163,16 @@ fun CharacterInfoGrid(character: Character) {
             Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            TextValueColumn(modifier = Modifier.weight(1f), title = "STATUS", value = character.status)
-            TextValueColumn(modifier = Modifier.weight(1f), title = "SPECIE", value = character.species)
+            TextValueColumn(
+                modifier = Modifier.weight(1f),
+                title = "STATUS",
+                value = character.status
+            )
+            TextValueColumn(
+                modifier = Modifier.weight(1f),
+                title = "SPECIE",
+                value = character.species
+            )
         }
 
         MyHorizontalSpacer(Modifier.padding(vertical = 8.dp))
@@ -135,11 +181,15 @@ fun CharacterInfoGrid(character: Character) {
             Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            TextValueColumn(modifier = Modifier.weight(1f), title = "GENDER", value = character.gender)
+            TextValueColumn(
+                modifier = Modifier.weight(1f),
+                title = "GENDER",
+                value = character.gender
+            )
             TextValueColumn(
                 modifier = Modifier.weight(1f),
                 title = "ORIGEN",
-                value = character.origin?.name
+                value = character.origin
             )
         }
 
@@ -172,5 +222,5 @@ fun CharacterDetailScreenPreview() {
         isLoading = false
     )
 
-    CharacterDetailScreenContent(uiState = uiState)
+    CharacterDetailScreenContent(uiState = uiState, onIntent = {})
 }

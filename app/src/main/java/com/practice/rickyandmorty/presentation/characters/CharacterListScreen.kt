@@ -30,10 +30,10 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.practice.rickyandmorty.R
 import com.practice.rickyandmorty.core.data.exceptions.BaseException
-import com.practice.rickyandmorty.core.ui.MyErrorDialog
-import com.practice.rickyandmorty.core.ui.MyImage
-import com.practice.rickyandmorty.core.ui.MyImageSource
-import com.practice.rickyandmorty.core.ui.MyLoadingProgress
+import com.practice.rickyandmorty.ui.components.MyErrorDialog
+import com.practice.rickyandmorty.ui.components.MyImage
+import com.practice.rickyandmorty.ui.components.MyImageSource
+import com.practice.rickyandmorty.ui.components.MyLoadingProgress
 import com.practice.rickyandmorty.domain.model.Character
 import com.practice.rickyandmorty.domain.model.CharacterFilter
 import com.practice.rickyandmorty.ui.theme.BackgroundBrush
@@ -42,7 +42,7 @@ import kotlinx.coroutines.flow.flowOf
 @Composable
 fun CharacterListScreen(
     viewModel: CharacterListViewModel = hiltViewModel(),
-    onDetailClick: (Int?, String?) -> Unit = { _, _ -> },
+    onDetailClick: (Int, String?) -> Unit = { _, _ -> },
     filter: CharacterFilter? = null
 ) {
     val uiState by viewModel.state.collectAsState()
@@ -67,7 +67,7 @@ fun CharacterListScreenContent(
     uiState: CharacterListState,
     pagingItems: LazyPagingItems<Character>,
     onIntent: (CharacterListIntent) -> Unit,
-    onDetailClick: (Int?, String?) -> Unit
+    onDetailClick: (Int, String?) -> Unit
 ) {
     LaunchedEffect(uiState.retry) {
         pagingItems.retry()
@@ -99,7 +99,7 @@ fun CharacterListScreenContent(
 fun CharacterListEvent(
     pagingItems: LazyPagingItems<Character>,
     onRetry: () -> Unit = {},
-    onDetailClick: (Int?, String?) -> Unit
+    onDetailClick: (Int, String?) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -126,7 +126,7 @@ fun CharacterListEvent(
 }
 
 @Composable
-fun CharacterItem(character: Character, onClick: (Int?, String?) -> Unit) {
+fun CharacterItem(character: Character, onClick: (Int, String?) -> Unit) {
     OutlinedCard(
         modifier = Modifier
             .fillMaxWidth()

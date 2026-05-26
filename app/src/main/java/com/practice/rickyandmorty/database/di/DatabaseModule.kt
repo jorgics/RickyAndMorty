@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.practice.rickyandmorty.database.AppDatabase
 import com.practice.rickyandmorty.database.dao.CharacterDao
 import com.practice.rickyandmorty.database.dao.CharacterRemoteKeysDao
+import com.practice.rickyandmorty.database.dao.FavoriteCharacterDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,4 +36,10 @@ object DatabaseModule {
     fun provideCharacterRemoteKeysDao(
         database: AppDatabase
     ) : CharacterRemoteKeysDao = database.characterRemoteKeysDao()
+
+    @Provides
+    @Singleton
+    fun provideFavoriteCharacterDao(
+        database: AppDatabase
+    ): FavoriteCharacterDao = database.favoritesDao()
 }

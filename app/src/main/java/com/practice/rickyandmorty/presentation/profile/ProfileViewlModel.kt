@@ -1,6 +1,6 @@
 package com.practice.rickyandmorty.presentation.profile
 
-import com.practice.rickyandmorty.core.ui.viewmodel.BaseViewModel
+import com.practice.rickyandmorty.core.presentation.viewmodel.BaseViewModel
 import com.practice.rickyandmorty.domain.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

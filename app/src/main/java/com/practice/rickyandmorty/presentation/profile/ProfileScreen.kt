@@ -38,8 +38,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.practice.rickyandmorty.R
-import com.practice.rickyandmorty.core.ui.MyImage
-import com.practice.rickyandmorty.core.ui.MyImageSource
+import com.practice.rickyandmorty.ui.components.MyImage
+import com.practice.rickyandmorty.ui.components.MyImageSource
 import com.practice.rickyandmorty.ui.theme.CardBackground
 import com.practice.rickyandmorty.ui.theme.GrayMedium
 import com.practice.rickyandmorty.ui.theme.Green

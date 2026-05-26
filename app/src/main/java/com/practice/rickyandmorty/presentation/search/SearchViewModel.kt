@@ -1,6 +1,6 @@
 package com.practice.rickyandmorty.presentation.search
 
-import com.practice.rickyandmorty.core.ui.viewmodel.BaseViewModel
+import com.practice.rickyandmorty.core.presentation.viewmodel.BaseViewModel
 import com.practice.rickyandmorty.domain.model.CharacterFilter
 import com.practice.rickyandmorty.domain.model.Gender
 import com.practice.rickyandmorty.domain.model.Status

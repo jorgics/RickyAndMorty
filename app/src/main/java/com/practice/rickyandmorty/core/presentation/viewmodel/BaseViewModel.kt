@@ -1,4 +1,4 @@
-package com.practice.rickyandmorty.core.ui.viewmodel
+package com.practice.rickyandmorty.core.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

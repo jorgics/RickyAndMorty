@@ -1,4 +1,4 @@
-package com.practice.rickyandmorty.core.ui
+package com.practice.rickyandmorty.ui.components
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text

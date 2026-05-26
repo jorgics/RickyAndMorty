@@ -1,4 +1,4 @@
-package com.practice.rickyandmorty.core.ui
+package com.practice.rickyandmorty.ui.components
 
 import androidx.compose.runtime.Composable
 import com.practice.rickyandmorty.core.data.exceptions.BaseException

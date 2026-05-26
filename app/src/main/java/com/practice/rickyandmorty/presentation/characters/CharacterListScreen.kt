@@ -30,10 +30,10 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.practice.rickyandmorty.R
 import com.practice.rickyandmorty.core.data.exceptions.BaseException
-import com.practice.rickyandmorty.core.ui.MyErrorDialog
-import com.practice.rickyandmorty.core.ui.MyImage
-import com.practice.rickyandmorty.core.ui.MyImageSource
-import com.practice.rickyandmorty.core.ui.MyLoadingProgress
+import com.practice.rickyandmorty.ui.components.MyErrorDialog
+import com.practice.rickyandmorty.ui.components.MyImage
+import com.practice.rickyandmorty.ui.components.MyImageSource
+import com.practice.rickyandmorty.ui.components.MyLoadingProgress
 import com.practice.rickyandmorty.domain.model.Character
 import com.practice.rickyandmorty.domain.model.CharacterFilter
 import com.practice.rickyandmorty.ui.theme.BackgroundBrush

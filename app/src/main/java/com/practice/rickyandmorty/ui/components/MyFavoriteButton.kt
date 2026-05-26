@@ -1,4 +1,4 @@
-package com.practice.rickyandmorty.core.ui
+package com.practice.rickyandmorty.ui.components
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon

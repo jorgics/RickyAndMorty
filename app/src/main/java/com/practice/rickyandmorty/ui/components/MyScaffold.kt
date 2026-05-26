@@ -1,4 +1,4 @@
-package com.practice.rickyandmorty.core.ui
+package com.practice.rickyandmorty.ui.components
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope

@@ -1,4 +1,4 @@
-package com.practice.rickyandmorty.core.ui
+package com.practice.rickyandmorty.ui.components
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState

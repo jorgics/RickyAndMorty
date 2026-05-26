@@ -2,7 +2,7 @@ package com.practice.rickyandmorty.presentation.favorites
 
 import androidx.lifecycle.viewModelScope
 import com.practice.rickyandmorty.core.data.exceptions.BaseException
-import com.practice.rickyandmorty.core.ui.viewmodel.BaseViewModel
+import com.practice.rickyandmorty.core.presentation.viewmodel.BaseViewModel
 import com.practice.rickyandmorty.domain.model.Favorite
 import com.practice.rickyandmorty.domain.usecase.DeleteFavoriteUseCase
 import com.practice.rickyandmorty.domain.usecase.GetFavoritesUseCase

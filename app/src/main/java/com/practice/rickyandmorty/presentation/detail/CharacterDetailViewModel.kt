@@ -3,7 +3,7 @@ package com.practice.rickyandmorty.presentation.detail
 import androidx.lifecycle.viewModelScope
 import com.practice.rickyandmorty.core.data.exceptions.BaseException
 import com.practice.rickyandmorty.core.data.responses.BaseResponse
-import com.practice.rickyandmorty.core.ui.viewmodel.BaseViewModel
+import com.practice.rickyandmorty.core.presentation.viewmodel.BaseViewModel
 import com.practice.rickyandmorty.data.mapper.toTransformFavorite
 import com.practice.rickyandmorty.domain.model.Character
 import com.practice.rickyandmorty.domain.model.Favorite

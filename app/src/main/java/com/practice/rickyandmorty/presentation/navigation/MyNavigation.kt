@@ -16,8 +16,8 @@ import androidx.navigation3.ui.NavDisplay
 import com.practice.rickyandmorty.core.extensions.back
 import com.practice.rickyandmorty.core.extensions.navigateTo
 import com.practice.rickyandmorty.core.extensions.navigateToSingleTop
-import com.practice.rickyandmorty.core.ui.MyBottomBar
-import com.practice.rickyandmorty.core.ui.MyScaffold
+import com.practice.rickyandmorty.ui.components.MyBottomBar
+import com.practice.rickyandmorty.ui.components.MyScaffold
 import com.practice.rickyandmorty.presentation.detail.CharacterDetailScreen
 import com.practice.rickyandmorty.presentation.characters.CharacterListScreen
 import com.practice.rickyandmorty.presentation.favorites.FavoritesScreen

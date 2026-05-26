@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.practice.rickyandmorty.R
-import com.practice.rickyandmorty.core.ui.FilterLayout
+import com.practice.rickyandmorty.ui.components.FilterLayout
 import com.practice.rickyandmorty.domain.model.CharacterFilter
 import com.practice.rickyandmorty.ui.theme.GrayMedium
 import com.practice.rickyandmorty.ui.theme.Green

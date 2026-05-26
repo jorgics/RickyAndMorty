@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -132,9 +133,11 @@ fun ProfileLoggedOut(
                 unfocusedTextColor = GrayMedium,
                 unfocusedBorderColor = GrayMedium,
                 unfocusedLabelColor = GrayMedium,
+                unfocusedTrailingIconColor = GrayMedium,
                 focusedLabelColor = Green,
                 focusedTextColor = Green,
-                focusedBorderColor = Green
+                focusedBorderColor = Green,
+                focusedTrailingIconColor = Green
             )
         )
 
@@ -167,19 +170,25 @@ fun ProfileLoggedOut(
                 onDone = { onLoginClick() }
             ),
             keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done
+                imeAction = ImeAction.Done,
+                keyboardType = KeyboardType.Email
             ),
             colors = OutlinedTextFieldDefaults.colors(
                 unfocusedTextColor = GrayMedium,
                 unfocusedBorderColor = GrayMedium,
                 unfocusedLabelColor = GrayMedium,
+                unfocusedTrailingIconColor = GrayMedium,
+                errorBorderColor = Color.Red,
+                errorTextColor = Color.Red,
+                errorTrailingIconColor = Color.Red,
                 focusedLabelColor = Green,
                 focusedTextColor = Green,
-                focusedBorderColor = Green
+                focusedBorderColor = Green,
+                focusedTrailingIconColor = Green
             )
         )
 
-        Spacer(modifier = Modifier.size(8.dp))
+        Spacer(modifier = Modifier.size(16.dp))
 
         OutlinedButton(
             onClick = { onLoginClick() },
@@ -188,7 +197,7 @@ fun ProfileLoggedOut(
                 containerColor = Green
             )
         ) {
-            Text(text = "Login")
+            Text(modifier = Modifier.padding(4.dp), text = "Login", fontSize = 18.sp)
         }
     }
 }

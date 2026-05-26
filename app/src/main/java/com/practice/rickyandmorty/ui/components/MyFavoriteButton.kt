@@ -13,14 +13,17 @@ import com.practice.rickyandmorty.R
 
 @Composable
 fun MyFavoriteButton(
-    isFavorite: Boolean = true,
-    onToggle: () -> Unit,
     modifier: Modifier = Modifier,
+    isFavorite: Boolean = true,
+    isDisable: Boolean = false,
+    onToggle: () -> Unit,
     size: Dp = 24.dp,
     tint: Color = Color.Red
 ) {
     IconButton(
-        onClick = onToggle,
+        onClick = {
+            if (!isDisable) onToggle()
+        },
         modifier = modifier
     ) {
         Icon(

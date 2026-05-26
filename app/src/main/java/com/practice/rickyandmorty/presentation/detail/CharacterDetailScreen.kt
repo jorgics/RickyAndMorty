@@ -116,6 +116,7 @@ fun CharacterDetailItem(
             modifier = Modifier.align(Alignment.TopEnd),
             size = 32.dp,
             isFavorite = isFavorite,
+            isDisable = isFavorite,
             onToggle = { onFavoriteClick() }
         )
 
@@ -131,7 +132,8 @@ fun CharacterDetailItem(
                         bottomStart = 0.dp
                     )
                 ),
-            initialExpanded = true
+            initialExpanded = true,
+            size = 32.dp
         ) {
             CharacterInfoGrid(character)
         }

@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -32,6 +33,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.practice.rickyandmorty.R
 
@@ -39,6 +41,7 @@ import com.practice.rickyandmorty.R
 fun ExpandableContent(
     modifier: Modifier = Modifier,
     initialExpanded: Boolean = false,
+    size: Dp = 24.dp,
     content: @Composable () -> Unit
 ) {
     var isExpanded by remember { mutableStateOf(initialExpanded) }
@@ -75,7 +78,8 @@ fun ExpandableContent(
         ) {
             Icon(
                 modifier = Modifier
-                    .rotate(rotation),
+                    .rotate(rotation)
+                    .size(size),
                 painter = painterResource(R.drawable.keyboard_arrow_up_24px),
                 contentDescription = null
             )

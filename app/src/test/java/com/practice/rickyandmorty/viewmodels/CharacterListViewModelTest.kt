@@ -6,8 +6,8 @@ import com.practice.rickyandmorty.utils.MainDispatcherRule
 import com.practice.rickyandmorty.domain.model.CharacterFilter
 import com.practice.rickyandmorty.domain.model.Gender
 import com.practice.rickyandmorty.domain.usecase.GetCharactersByFilterUseCase
-import com.practice.rickyandmorty.ui.characters.CharacterListIntent
-import com.practice.rickyandmorty.ui.characters.CharacterListViewModel
+import com.practice.rickyandmorty.presentation.characters.CharacterListIntent
+import com.practice.rickyandmorty.presentation.characters.CharacterListViewModel
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

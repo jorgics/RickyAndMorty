@@ -4,8 +4,8 @@ import com.practice.rickyandmorty.core.data.exceptions.BaseException
 import com.practice.rickyandmorty.core.data.responses.BaseResponse
 import com.practice.rickyandmorty.domain.model.Character
 import com.practice.rickyandmorty.domain.usecase.GetCharacterByIdUseCase
-import com.practice.rickyandmorty.ui.detail.CharacterDetailIntent
-import com.practice.rickyandmorty.ui.detail.CharacterDetailViewModel
+import com.practice.rickyandmorty.presentation.detail.CharacterDetailIntent
+import com.practice.rickyandmorty.presentation.detail.CharacterDetailViewModel
 import com.practice.rickyandmorty.utils.MainDispatcherRule
 import io.mockk.coEvery
 import io.mockk.mockk

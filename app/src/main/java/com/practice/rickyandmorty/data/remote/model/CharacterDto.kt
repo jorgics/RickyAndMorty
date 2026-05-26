@@ -5,14 +5,14 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class CharacterDto(
+    @field:Json(name = "id")
+    val id: Int,
     @field:Json(name = "created")
     val created: String?,
     @field:Json(name = "episode")
     val episode: List<String?>?,
     @field:Json(name = "gender")
     val gender: String?,
-    @field:Json(name = "id")
-    val id: Int?,
     @field:Json(name = "image")
     val image: String?,
     @field:Json(name = "location")

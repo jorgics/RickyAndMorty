@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RickyAndMortyTheme">
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".presentation.MainActivity"
             android:screenOrientation="portrait"
             android:exported="true"
             android:theme="@style/Theme.RickyAndMortyTheme"

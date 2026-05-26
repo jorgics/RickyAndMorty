@@ -18,6 +18,10 @@
 |:--------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------:|
 | <img src="screenshots/ProfileLogoutScreen.png" style="height: 25%; width:75%;"/> | <img src="screenshots/ProfileLoginScreen.png" style="height: 25%; width:75%;"/> |
 
+|                               Demo                                |
+|:-----------------------------------------------------------------:|
+| <img src="screenshots/Demo.gif" style="height: 25%; width:30%;"/> |
+
 ## Instalación y Configuración
 
 Para ejecutar este proyecto localmente, sigue estos pasos:

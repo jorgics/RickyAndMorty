@@ -1,7 +1,12 @@
-package com.practice.rickyandmorty.domain.model
+package com.practice.rickyandmorty.database.entities
 
-data class Character(
-    val id: Int,
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "favorites")
+data class FavoriteEntity(
+    @PrimaryKey
+    val characterId: Int,
     val name: String? = "Unknown",
     val status: String? = "Unknown",
     val species: String? = "Unknown",
@@ -10,7 +15,7 @@ data class Character(
     val image: String? = "Unknown",
     val origin: String? = null,
     val location: String? = null,
-    val episode: List<String?>? = null,
+    val episodes: String? = null,
     val url: String? = null,
     val created: String? = null
 )

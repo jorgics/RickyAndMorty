@@ -1,6 +1,6 @@
 package com.practice.rickyandmorty.domain.model
 
-data class Character(
+data class Favorite(
     val id: Int,
     val name: String? = "Unknown",
     val status: String? = "Unknown",

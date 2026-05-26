@@ -41,6 +41,7 @@ fun MyBottomBar(
                 modifier = Modifier.weight(1f),
                 selected = selectedItem == BottomItem.EXPLORE,
                 icon = R.drawable.home_24px,
+                iconSelected = R.drawable.baseline_home_24,
                 label = BottomItem.EXPLORE.name,
                 onClick = onHomeClick
             )
@@ -49,6 +50,7 @@ fun MyBottomBar(
                 modifier = Modifier.weight(1f),
                 selected = selectedItem == BottomItem.FAVORITES,
                 icon = R.drawable.favorite_24px,
+                iconSelected = R.drawable.baseline_favorite_24,
                 label = BottomItem.FAVORITES.name,
                 onClick = onFavoritesClick
             )
@@ -65,6 +67,7 @@ fun MyBottomBar(
                 modifier = Modifier.weight(1f),
                 selected = selectedItem == BottomItem.PROFILE,
                 icon = R.drawable.person_24px,
+                iconSelected = R.drawable.baseline_person_24,
                 label = BottomItem.PROFILE.name,
                 onClick = onProfileClick
             )
@@ -77,6 +80,7 @@ fun MyBottomItem(
     modifier: Modifier = Modifier,
     selected: Boolean,
     icon: Int,
+    iconSelected: Int = icon,
     label: String,
     onClick: () -> Unit
 ) {
@@ -96,7 +100,7 @@ fun MyBottomItem(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Icon(
-            painter = painterResource(icon),
+            painter = painterResource(if (!selected) icon else iconSelected),
             contentDescription = null,
             tint = if (selected) Color.White else Color.White.copy(alpha = 0.6f)
         )

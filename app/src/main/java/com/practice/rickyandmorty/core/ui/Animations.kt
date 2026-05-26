@@ -38,9 +38,10 @@ import com.practice.rickyandmorty.R
 @Composable
 fun ExpandableContent(
     modifier: Modifier = Modifier,
+    initialExpanded: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    var isExpanded by remember { mutableStateOf(false) }
+    var isExpanded by remember { mutableStateOf(initialExpanded) }
 
     val rotation by animateFloatAsState(
         targetValue = if (isExpanded) 180f else 0f,

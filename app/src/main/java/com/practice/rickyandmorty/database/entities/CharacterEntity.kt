@@ -12,6 +12,8 @@ data class CharacterEntity(
     val type: String? = "Unknown",
     val gender: String? = "Unknown",
     val image: String? = "Unknown",
+    val origin: String? = null,
+    val location: String? = null,
     val episodes: String? = null,
     val url: String? = null,
     val created: String? = null

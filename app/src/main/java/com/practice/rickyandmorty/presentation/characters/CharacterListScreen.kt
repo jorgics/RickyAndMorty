@@ -42,7 +42,7 @@ import kotlinx.coroutines.flow.flowOf
 @Composable
 fun CharacterListScreen(
     viewModel: CharacterListViewModel = hiltViewModel(),
-    onDetailClick: (Int?, String?) -> Unit = { _, _ -> },
+    onDetailClick: (Int, String?) -> Unit = { _, _ -> },
     filter: CharacterFilter? = null
 ) {
     val uiState by viewModel.state.collectAsState()
@@ -67,7 +67,7 @@ fun CharacterListScreenContent(
     uiState: CharacterListState,
     pagingItems: LazyPagingItems<Character>,
     onIntent: (CharacterListIntent) -> Unit,
-    onDetailClick: (Int?, String?) -> Unit
+    onDetailClick: (Int, String?) -> Unit
 ) {
     LaunchedEffect(uiState.retry) {
         pagingItems.retry()
@@ -99,7 +99,7 @@ fun CharacterListScreenContent(
 fun CharacterListEvent(
     pagingItems: LazyPagingItems<Character>,
     onRetry: () -> Unit = {},
-    onDetailClick: (Int?, String?) -> Unit
+    onDetailClick: (Int, String?) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -126,7 +126,7 @@ fun CharacterListEvent(
 }
 
 @Composable
-fun CharacterItem(character: Character, onClick: (Int?, String?) -> Unit) {
+fun CharacterItem(character: Character, onClick: (Int, String?) -> Unit) {
     OutlinedCard(
         modifier = Modifier
             .fillMaxWidth()
